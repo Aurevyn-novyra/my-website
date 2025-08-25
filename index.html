@@ -5,251 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurevyn Novyra | Priyanshu Sharma</title>
   <style>
-    * {margin:0; padding:0; box-sizing:border-box;}
+    /* RESET */
+    * {margin: 0; padding: 0; box-sizing: border-box;}
     body {
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      background: #0b0b1a;
-      color: #eee;
-      overflow-x:hidden;
+      font-family: 'Georgia', serif;
+      background: #0b0b13;
+      color: #f5f5f5;
+      overflow-x: hidden;
     }
 
-    /* Background Stars Animation */
+    /* COSMIC BACKGROUND */
     body::before {
-      content:"";
-      position:fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: url("https://www.transparenttextures.com/patterns/stardust.png");
-      animation: moveStars 100s linear infinite;
-      z-index:-1;
-      opacity:0.6;
-    }
-    @keyframes moveStars {
-      from {background-position:0 0;}
-      to {background-position:2000px 2000px;}
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(ellipse at center, rgba(30,30,50,0.9), #0b0b13),
+                  url("https://www.transparenttextures.com/patterns/stardust.png");
+      background-size: cover;
+      z-index: -2;
     }
 
-    /* Navbar */
+    .stars {
+      position: fixed;
+      width: 100%; height: 100%;
+      background: transparent url("https://i.ibb.co/0j1rVn5/stars.png") repeat;
+      animation: moveStars 200s linear infinite;
+      z-index: -1;
+    }
+    @keyframes moveStars { from {background-position:0 0;} to {background-position:-10000px 5000px;} }
+
+    /* NAVBAR */
     nav {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:15px 40px;
-      background:rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: rgba(15,15,25,0.8);
       backdrop-filter: blur(8px);
-      position:sticky; top:0;
-      z-index:1000;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     nav h1 {
-      font-size:22px;
-      color:#ffccff;
-      font-weight:bold;
-      text-shadow:0 0 10px #b57aff, 0 0 20px #a45aff;
+      font-size: 28px;
+      font-family: 'Cinzel Decorative', serif;
+      color: #ffcc88;
+      animation: glowText 3s infinite alternate;
     }
-    nav ul {list-style:none; display:flex; gap:20px;}
+    @keyframes glowText {
+      from {text-shadow: 0 0 10px #ffcc88;}
+      to {text-shadow: 0 0 20px #fff, 0 0 30px #ffcc88;}
+    }
+    nav ul {
+      display: flex; list-style: none; gap: 25px;
+    }
     nav ul li a {
-      text-decoration:none;
-      color:white;
-      font-weight:500;
-      transition:0.3s;
+      text-decoration: none;
+      color: #eee;
+      font-weight: bold;
+      transition: 0.4s;
     }
-    nav ul li a:hover {color:#ffccff; text-shadow:0 0 10px #a45aff;}
+    nav ul li a:hover {color: #ffcc88; text-shadow: 0 0 10px #ffcc88;}
 
-    /* Hero */
+    /* HERO */
     .hero {
-      height:80vh;
-      display:flex; flex-direction:column;
-      justify-content:center; align-items:center;
-      text-align:center;
-      padding:0 20px;
-      animation: fadeIn 2s ease-in-out;
+      height: 90vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 20px;
     }
     .hero h1 {
-      font-size:60px;
-      margin-bottom:15px;
-      background: linear-gradient(90deg, #ffccff, #a45aff, #6a0dad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 3s infinite alternate;
+      font-size: 60px;
+      font-family: 'Cinzel Decorative', serif;
+      color: #ffcc88;
+      animation: fadeInDown 2s ease;
     }
-    @keyframes glow {
-      from {text-shadow:0 0 15px #a45aff;}
-      to {text-shadow:0 0 30px #ffccff;}
+    .hero p {
+      font-size: 22px;
+      margin-top: 20px;
+      color: #ddd;
+      animation: fadeInUp 2.5s ease;
     }
-    .hero p {font-size:20px; margin-top:10px; color:#ddd;}
+    @keyframes fadeInDown { from {opacity:0; transform: translateY(-50px);} to {opacity:1; transform: translateY(0);} }
+    @keyframes fadeInUp { from {opacity:0; transform: translateY(50px);} to {opacity:1; transform: translateY(0);} }
 
-    /* Sections */
-    section {
-      max-width:1100px;
-      margin:80px auto;
-      padding:0 20px;
-      opacity:0;
-      transform:translateY(40px);
-      transition:all 1s ease;
-    }
-    section.visible {opacity:1; transform:translateY(0);}
+    /* SECTIONS */
+    section {padding: 80px 20px; max-width: 1100px; margin: auto;}
     section h2 {
-      text-align:center;
-      font-size:36px;
-      margin-bottom:40px;
-      color:#ffccff;
-      text-shadow:0 0 12px #a45aff;
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 40px;
+      font-family: 'Cinzel Decorative', serif;
+      color: #ffcc88;
+      animation: glowText 3s infinite alternate;
     }
 
-    /* Cards Grid */
+    /* WORKS */
     .card-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
-      gap:25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 30px;
     }
     .card {
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.1);
-      padding:25px;
-      border-radius:15px;
-      box-shadow:0 0 15px rgba(164,90,255,0.2);
-      transition:transform 0.4s, box-shadow 0.4s;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 14px;
+      transition: 0.4s;
+      text-align: center;
     }
     .card:hover {
-      transform:translateY(-10px);
-      box-shadow:0 0 25px rgba(164,90,255,0.5);
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 0 20px rgba(255,204,136,0.3);
     }
-    .card h3 {margin-bottom:15px; color:#fff; font-size:22px;}
+    .card h3 {margin-bottom: 15px; color: #fff;}
     .btn {
-      display:inline-block;
-      margin-top:12px;
-      padding:10px 18px;
-      background:linear-gradient(90deg, #a45aff, #6a0dad);
-      color:white;
-      text-decoration:none;
-      border-radius:8px;
-      font-weight:bold;
-      transition:0.3s;
-      box-shadow:0 0 10px rgba(164,90,255,0.4);
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 20px;
+      border-radius: 6px;
+      background: linear-gradient(45deg,#ffcc88,#ff9966);
+      color: #111;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .btn:hover {
-      background:linear-gradient(90deg, #ffccff, #a45aff);
-      box-shadow:0 0 20px rgba(255,204,255,0.8);
+    .btn::after {
+      content:"";
+      position:absolute;
+      top:0; left:-100%;
+      width:100%; height:100%;
+      background:rgba(255,255,255,0.3);
+      transform:skewX(-20deg);
+      transition:0.5s;
     }
+    .btn:hover::after {left:100%;}
+    .btn:hover {box-shadow: 0 0 15px #ffcc88;}
 
-    /* About */
-    .about p {
-      max-width:900px;
-      margin:auto;
-      text-align:center;
-      font-size:18px;
-      line-height:1.8;
-      color:#ddd;
+    /* STORY SUBMIT */
+    .form-box {
+      max-width: 600px; margin: auto;
+      background: rgba(255,255,255,0.05);
+      padding: 30px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
+    .form-box input, .form-box textarea {
+      width: 100%; padding: 12px; margin: 10px 0;
+      border: none; border-radius: 8px;
+      outline: none;
+    }
+    .form-box button {
+      padding: 12px 20px;
+      background: linear-gradient(45deg,#ffcc88,#ff9966);
+      border: none; border-radius: 8px;
+      font-weight: bold; cursor: pointer;
+      transition: 0.3s;
+    }
+    .form-box button:hover {box-shadow: 0 0 15px #ffcc88;}
 
-    /* Share Story Form */
-    .story-form {
-      max-width:700px;
-      margin:auto;
-      background:rgba(255,255,255,0.05);
-      padding:25px;
-      border-radius:15px;
-      box-shadow:0 0 15px rgba(164,90,255,0.2);
-    }
-    .story-form input, .story-form textarea {
-      width:100%;
-      padding:12px;
-      margin:10px 0;
-      border:none;
-      border-radius:8px;
-      background:rgba(255,255,255,0.1);
-      color:white;
-      font-size:16px;
-    }
-    .story-form button {
-      padding:12px 20px;
-      border:none;
-      border-radius:8px;
-      background:linear-gradient(90deg,#6a0dad,#a45aff);
-      color:white;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    .story-form button:hover {
-      background:linear-gradient(90deg,#ffccff,#a45aff);
-      box-shadow:0 0 20px rgba(255,204,255,0.8);
-    }
-
-    /* Footer */
+    /* FOOTER */
     footer {
-      text-align:center;
-      padding:20px;
-      background:rgba(0,0,0,0.7);
-      font-size:14px;
-      color:#bbb;
-      margin-top:60px;
+      text-align: center;
+      padding: 25px;
+      font-size: 14px;
+      background: rgba(15,15,25,0.9);
+      color: #aaa;
+      margin-top: 50px;
+      border-top: 1px solid rgba(255,255,255,0.1);
     }
-    footer a {color:#ffccff; text-decoration:none;}
+    footer a {color:#ffcc88; text-decoration: none;}
   </style>
 </head>
 <body>
+  <div class="stars"></div>
 
-  <!-- Navbar -->
+  <!-- NAV -->
   <nav>
     <h1>Aurevyn Novyra</h1>
     <ul>
-      <li><a href="#">Home</a></li>
       <li><a href="#works">Works</a></li>
-      <li><a href="#highlights">Highlights</a></li>
-      <li><a href="#stories">Stories</a></li>
+      <li><a href="#special">Celestial Highlights</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#stories">Share Story</a></li>
     </ul>
   </nav>
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="hero">
     <h1>Aurevyn Novyra</h1>
-    <p>Poet • Novelist • Dreamer | By PRIYANSHU SHARMA @aurevyn.novyra</p>
+    <p>Poet • Novelist • Dreamer | By Priyanshu Sharma</p>
   </section>
 
-  <!-- Works -->
+  <!-- WORKS -->
   <section id="works">
     <h2>My Works</h2>
     <div class="card-grid">
-      <div class="card"><h3>📖 If God Gave Me Another Chance (ChapBook)</h3><a href="https://drive.google.com/file/d/1Y-iuK8AkCDBiw8ySJSId0r_nY8ct8ckl/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>🔥 The Eternal Flame (Poem)</h3><a href="https://drive.google.com/file/d/1qCye2VuewcJXsyzAmacOkHG5U64Uce-l/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>✨ The Miracle I Await (Poem)</h3><a href="https://drive.google.com/file/d/1oSII0qvsMSigr9GRxeLhU0QRgQJctKxy/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>🌙 The Dream Dreaming the Dreamer</h3><a href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>🎵 Echoes That Never Got Heard</h3><a href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>☁️ Hands Beneath My Sky</h3><a href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>❤️ If Love Ever Finds Me</h3><a href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>🌸 Ashes Don’t Bloom</h3><a href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>😔 Hopeless Yet Clueless</h3><a href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
-      <div class="card"><h3>💔 End It All</h3><a href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view?usp=drivesdk" target="_blank" class="btn">Read</a></div>
+      <div class="card"><h3>📖 If God Gave Me Another Chance</h3><a class="btn" href="https://drive.google.com/file/d/1Y-iuK8AkCDBiw8ySJSId0r_nY8ct8ckl/view" target="_blank">Read</a></div>
+      <div class="card"><h3>🔥 The Eternal Flame</h3><a class="btn" href="https://drive.google.com/file/d/1qCye2VuewcJXsyzAmacOkHG5U64Uce-l/view" target="_blank">Read</a></div>
+      <div class="card"><h3>✨ The Miracle I Await</h3><a class="btn" href="https://drive.google.com/file/d/1oSII0qvsMSigr9GRxeLhU0QRgQJctKxy/view" target="_blank">Read</a></div>
+      <div class="card"><h3>🌌 The Dream Dreaming the Dreamer</h3><a class="btn" href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view" target="_blank">Read</a></div>
+      <div class="card"><h3>🌙 Echoes That Never Got Heard</h3><a class="btn" href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view" target="_blank">Read</a></div>
+      <div class="card"><h3>☁ Hands Beneath My Sky</h3><a class="btn" href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view" target="_blank">Read</a></div>
+      <div class="card"><h3>💖 If Love Ever Finds Me</h3><a class="btn" href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view" target="_blank">Read</a></div>
+      <div class="card"><h3>🌺 Ashes Don’t Bloom</h3><a class="btn" href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view" target="_blank">Read</a></div>
+      <div class="card"><h3>🌑 Hopeless Yet Clueless</h3><a class="btn" href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view" target="_blank">Read</a></div>
+      <div class="card"><h3>💔 End It All</h3><a class="btn" href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view" target="_blank">Read</a></div>
     </div>
   </section>
 
-  <!-- Highlights -->
-  <section id="highlights">
+  <!-- SPECIAL -->
+  <section id="special">
     <h2>Celestial Highlights</h2>
-    <div class="card-grid">
-      <div class="card"><h3>🌌 Coming Soon...</h3><p>My best works will shine here like constellations ✨</p></div>
-    </div>
+    <p style="text-align:center;max-width:800px;margin:auto;font-size:18px;color:#ddd;">
+      A constellation of my finest works — curated poems & thoughts closest to my heart. ✨
+    </p>
   </section>
 
-  <!-- Stories -->
-  <section id="stories">
-    <h2>Share Your Story</h2>
-    <form class="story-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="6" placeholder="Write your story here..." required></textarea>
-      <button type="submit">Send Story</button>
-    </form>
-  </section>
-
-  <!-- About -->
-  <section class="about" id="about">
+  <!-- ABOUT -->
+  <section id="about">
     <h2>About Me</h2>
-    <p>
-      Hi, I’m <strong>Priyanshu Sharma</strong>, and this Heaven is called <strong>@aurevyn.novyra</strong>.  
+    <p style="text-align:center;max-width:800px;margin:auto;font-size:18px;color:#ddd;">
+      Hi, I’m <strong>Priyanshu Sharma</strong>, And this Heaven is called <strong>@aurevyn.novyra</strong>.  
       Writing has always been my way of expressing emotions that words often fail to capture.  
       Through my poems and novels, I aim to create a space where readers can connect with  
       the depth of human feelings, hope, and imagination.  
@@ -258,23 +237,22 @@
     </p>
   </section>
 
-  <!-- Footer -->
+  <!-- STORY SUBMIT -->
+  <section id="stories">
+    <h2>Share Your Story</h2>
+    <div class="form-box">
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Write your story here..." required></textarea>
+        <button type="submit">Submit Story</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    © 2025 Priyanshu Sharma | Built with ❤️ | <a href="https://github.com/Aurevyn-novyra" target="_blank">@aurevyn.novyra</a>
+    © 2025 Priyanshu Sharma | Built with Cosmic Love ✨ | <a href="https://github.com/Aurevyn-novyra" target="_blank">@aurevyn.novyra</a>
   </footer>
-
-  <!-- Scroll Animations -->
-  <script>
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("visible");
-        }
-      });
-    }, {threshold:0.2});
-    sections.forEach(sec => observer.observe(sec));
-  </script>
-
 </body>
 </html>
