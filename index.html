@@ -15,9 +15,20 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: #fcfaf7;
+      background: linear-gradient(180deg,#faf9f7,#f3ede7);
       color: #2c2c2c;
       scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    /* Subtle floating particles background */
+    body::before {
+      content: "";
+      position: fixed;
+      width: 100%; height: 100%;
+      background: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      opacity: 0.08;
+      pointer-events: none;
     }
 
     /* Navbar */
@@ -25,9 +36,9 @@
       position: sticky; top: 0; z-index: 1000;
       display: flex; justify-content: space-between; align-items: center;
       padding: 18px 50px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.75);
       backdrop-filter: blur(14px);
-      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
     }
     nav h1 {
       font-size: 26px;
@@ -57,12 +68,11 @@
 
     /* Hero */
     .hero {
-      height: 85vh;
-      background: url("https://www.transparenttextures.com/patterns/old-wall.png");
+      height: 90vh;
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
       text-align: center; padding: 0 20px;
-      color: #2d2a26;
+      background: url("https://www.transparenttextures.com/patterns/clean-gray-paper.png");
     }
     .typing-title {
       font-size: 60px;
@@ -73,22 +83,15 @@
       border-right: 3px solid #b08968;
       overflow: hidden;
       width: 0;
-      animation: typing 5s steps(30, end) infinite alternate,
+      animation: typing 6s steps(35, end) infinite alternate,
                  blink 0.8s infinite;
     }
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
     }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-    .hero p {
-      font-size: 22px;
-      margin-top: 15px;
-      font-weight: 300;
-      color: #555;
-    }
+    @keyframes blink { 50% { border-color: transparent; } }
+    .hero p { font-size: 22px; margin-top: 20px; color: #555; }
 
     /* Sections */
     section {
@@ -114,47 +117,47 @@
       border-radius: 2px;
     }
 
-    /* Cards */
+    /* Glassy Cards */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
       gap: 35px;
     }
     .card {
-      background: rgba(255,255,255,0.9);
-      border-radius: 18px;
+      background: rgba(255,255,255,0.45);
+      border-radius: 20px;
       padding: 28px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
-      backdrop-filter: blur(12px);
-      transition: all 0.5s ease;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      backdrop-filter: blur(15px) saturate(160%);
+      transition: all 0.6s ease;
       position: relative;
       overflow: hidden;
     }
     .card::before {
       content: "";
       position: absolute;
-      top: -50%; left: -50%;
+      top: -80%; left: -80%;
       width: 200%; height: 200%;
-      background: linear-gradient(120deg, rgba(176,137,104,0.15), transparent, rgba(176,137,104,0.15));
+      background: radial-gradient(circle,rgba(255,255,255,0.35),transparent);
       transform: rotate(25deg);
-      transition: 0.7s;
+      opacity: 0;
+      transition: 0.6s;
     }
-    .card:hover::before { top: -30%; left: -30%; }
+    .card:hover::before { opacity: 1; top: -40%; left: -40%; }
     .card:hover {
-      transform: translateY(-12px) scale(1.04);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+      transform: translateY(-14px) scale(1.05);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.2);
     }
-    .card h3 { font-size: 21px; margin-bottom: 14px; color: #3a2d24; }
-    .card a.btn { margin-top: 15px; }
+    .card h3 { font-size: 21px; margin-bottom: 14px; color: #2e2219; }
 
     /* Buttons */
     .btn {
       display: inline-block;
       padding: 12px 24px;
-      border-radius: 12px;
+      border-radius: 14px;
       text-decoration: none;
       color: #fff;
-      background: linear-gradient(135deg, #b08968, #7f5539);
+      background: linear-gradient(135deg,#b08968,#7f5539);
       font-weight: bold;
       transition: all 0.4s ease;
       position: relative;
@@ -165,8 +168,8 @@
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: rgba(255,255,255,0.25);
-      transition: 0.5s;
+      background: rgba(255,255,255,0.3);
+      transition: 0.6s;
     }
     .btn:hover::after { left: 100%; }
     .btn:hover { transform: scale(1.08); }
@@ -183,10 +186,12 @@
       font-size: 16px;
       transition: 0.3s;
       font-family: 'Poppins', sans-serif;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(12px);
     }
     .stories input:focus, .stories textarea:focus {
       border-color: #b08968;
-      box-shadow: 0 0 8px rgba(176,137,104,0.3);
+      box-shadow: 0 0 10px rgba(176,137,104,0.4);
       outline: none;
     }
 
@@ -237,44 +242,24 @@
   <section id="works" data-aos="fade-up">
     <h2>My Works</h2>
     <div class="card-grid">
-      <div class="card" data-aos="zoom-in">
-        <h3>The Dream Dreaming the Dreamer</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>Echoes that never Got heard</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>Hands beneath My sky</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>If love ever finds me</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>Ashes Don't Bloom</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>Hopeless yet clueless</h3>
-        <a class="btn" href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
-      <div class="card" data-aos="zoom-in">
-        <h3>End it all</h3>
-        <a class="btn" href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view?usp=drivesdk" target="_blank">Read</a>
-      </div>
+      <div class="card" data-aos="zoom-in"><h3>The Dream Dreaming the Dreamer</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>Echoes that never Got heard</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>Hands beneath My sky</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>If love ever finds me</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>Ashes Don't Bloom</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>Hopeless yet clueless</h3><a class="btn" href="#">Read</a></div>
+      <div class="card" data-aos="zoom-in"><h3>End it all</h3><a class="btn" href="#">Read</a></div>
     </div>
   </section>
 
   <!-- Featured -->
   <section id="featured" data-aos="fade-up">
     <h2>Featured Section</h2>
-    <p style="text-align:center; font-size:18px; max-width:800px; margin:auto; line-height:1.7; color:#444;">
-      A curated selection of writings that embody the essence of my journey.  
-      These pieces are not just words — they are living echoes in the library of Aurevyn Novyra.
-    </p>
+    <div class="card-grid">
+      <div class="card" data-aos="fade-left"><h3>Midnight in the Library</h3><p>A tale whispered between bookshelves.</p></div>
+      <div class="card" data-aos="fade-right"><h3>Letters Never Sent</h3><p>Echoes of words left unsaid.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Autumn’s Last Breath</h3><p>Poetry woven in falling leaves.</p></div>
+    </div>
   </section>
 
   <!-- Reader’s Stories -->
@@ -288,6 +273,19 @@
     </form>
   </section>
 
+  <!-- Extra Scrollable Content -->
+  <section data-aos="fade-up"><h2>Library of Echoes</h2><div class="card-grid">
+    <div class="card" data-aos="flip-left"><h3>Dusty Windows</h3><p>Light filtering into forgotten corners.</p></div>
+    <div class="card" data-aos="flip-right"><h3>Silent Whispers</h3><p>Stories only night can hear.</p></div>
+    <div class="card" data-aos="zoom-in"><h3>Pages of Time</h3><p>Each word a universe in itself.</p></div>
+  </div></section>
+
+  <section data-aos="fade-up"><h2>Timeless Chapters</h2><div class="card-grid">
+    <div class="card" data-aos="fade-up"><h3>The Forgotten Poem</h3></div>
+    <div class="card" data-aos="fade-up"><h3>The Library Clock</h3></div>
+    <div class="card" data-aos="fade-up"><h3>The Lantern’s Glow</h3></div>
+  </div></section>
+
   <!-- Footer -->
   <footer>
     © 2025 Aurevyn Novyra | Designed with love by Priyanshu Sharma
@@ -295,6 +293,6 @@
 
   <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({duration: 1200, once: true});</script>
+  <script>AOS.init({duration: 1200, once: false, offset: 120});</script>
 </body>
 </html>
