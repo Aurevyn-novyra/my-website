@@ -153,11 +153,35 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <h1>Welcome to Aurevyn-novyra</h1>
-    <p>Poet • Novelist • Dreamer | By PRIYANSHU SHARMA @aurevyn.novyra</p>
-  </section>
+ <!-- Hero -->
+<section class="hero">
+  <h1 id="typing-text"></h1>
+  <p>Poet • Novelist • Dreamer | By PRIYANSHU SHARMA @aurevyn.novyra</p>
+</section>
+
+<script>
+  const text = "Aurevyn-novyra";
+  let index = 0;
+  const speed = 150; // typing speed in ms
+
+  function typeWriter() {
+    if (index < text.length) {
+      document.getElementById("typing-text").innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeWriter, speed);
+    } else {
+      // reset after typing finishes
+      setTimeout(() => {
+        document.getElementById("typing-text").innerHTML = "";
+        index = 0;
+        typeWriter();
+      }, 1500); // pause before loop restarts
+    }
+  }
+
+  window.onload = typeWriter;
+</script>
+
 
   <!-- Works -->
   <section class="works" id="works">
