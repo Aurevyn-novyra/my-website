@@ -1,255 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aurevyn Novyra | Priyanshu Sharma</title>
-
-  <!-- Google Fonts -->
+  <meta name="description" content="A poetic journey through words & imagination by Priyanshu Sharma — Aurevyn Novyra. Read chapbooks, poems, and featured snippets." />
+  <meta name="theme-color" content="#b08968" />
+  <meta property="og:title" content="Aurevyn Novyra | Priyanshu Sharma" />
+  <meta property="og:description" content="Poetry, chapbooks, featured writings, and a library of echoes." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- AOS Animation -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(180deg,#faf9f7,#f3ede7);
-      color: #2c2c2c;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
+    :root{
+      --bg1:#faf9f7; --bg2:#f3ede7; --ink:#2c2c2c; --brand:#b08968; --brand2:#7f5539; --ink2:#3a2d24;
     }
-
-    /* Subtle floating particles background */
-    body::before {
-      content: "";
-      position: fixed;
-      width: 100%; height: 100%;
-      background: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
-      opacity: 0.08;
-      pointer-events: none;
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      color:var(--ink);
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      overflow-x:hidden;
     }
+    /* Texture + animated gradient glow */
+    body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;background:url("https://www.transparenttextures.com/patterns/paper-fibers.png");z-index:-1}
+    .glow{position:fixed;inset:auto -20% -30% -20%;height:70vh;filter:blur(90px);background:radial-gradient(50% 50% at 50% 50%, rgba(176,137,104,.25),transparent 60%),radial-gradient(40% 40% at 20% 60%, rgba(127,85,57,.18),transparent 60%);transform:translateZ(0);z-index:-2;animation:floatGlow 14s ease-in-out infinite alternate}
+    @keyframes floatGlow{from{transform:translate(-2%,2%)}to{transform:translate(2%,-2%)}}
 
     /* Navbar */
-    nav {
-      position: sticky; top: 0; z-index: 1000;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 50px;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-    }
-    nav h1 {
-      font-size: 26px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      color: #3a2d24;
-      letter-spacing: 2px;
-    }
-    nav ul { list-style: none; display: flex; gap: 25px; }
-    nav ul li a {
-      text-decoration: none;
-      color: #444;
-      font-weight: 500;
-      position: relative;
-      transition: color 0.3s;
-    }
-    nav ul li a::after {
-      content: '';
-      position: absolute;
-      width: 0; height: 2px;
-      left: 0; bottom: -4px;
-      background: #b08968;
-      transition: 0.3s;
-    }
-    nav ul li a:hover { color: #b08968; }
-    nav ul li a:hover::after { width: 100%; }
+    nav{position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:16px clamp(18px,5vw,50px);background:rgba(255,255,255,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 20px rgba(0,0,0,.08)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 8px 24px rgba(176,137,104,.35)}
+    nav h1{font:700 26px 'Playfair Display',serif;letter-spacing:2px;color:var(--ink2)}
+    .nav-links{list-style:none;display:flex;gap:25px}
+    .nav-links a{text-decoration:none;color:#444;font-weight:600;position:relative;transition:color .3s}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--brand);transition:width .3s}
+    .nav-links a:hover{color:var(--brand)}
+    .nav-links a:hover::after{width:100%}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .hamburger span{width:26px;height:2px;background:#4b4b4b;border-radius:2px;transition:.3s}
+    @media (max-width:860px){.nav-links{position:fixed;inset:64px 16px auto;display:grid;gap:14px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);padding:16px;border-radius:14px;transform:translateY(-20px);opacity:0;pointer-events:none;box-shadow:0 16px 40px rgba(0,0,0,.12)}.hamburger{display:flex}}
+    .nav-open .nav-links{transform:translateY(0);opacity:1;pointer-events:auto}
+    .nav-open .hamburger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-open .hamburger span:nth-child(2){opacity:0}
+    .nav-open .hamburger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
     /* Hero */
-    .hero {
-      height: 90vh;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      text-align: center; padding: 0 20px;
-      background: url("https://www.transparenttextures.com/patterns/clean-gray-paper.png");
-    }
-    .typing-title {
-      font-size: 60px;
-      font-family: 'Playfair Display', serif;
-      font-weight: 700;
-      color: #3a2d24;
-      white-space: nowrap;
-      border-right: 3px solid #b08968;
-      overflow: hidden;
-      width: 0;
-      animation: typing 6s steps(35, end) infinite alternate,
-                 blink 0.8s infinite;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink { 50% { border-color: transparent; } }
-    .hero p { font-size: 22px; margin-top: 20px; color: #555; }
+    .hero{min-height:92vh;display:grid;place-items:center;text-align:center;padding:0 20px;position:relative;isolation:isolate}
+    .hero::after{content:"";position:absolute;inset:0;background:url("https://www.transparenttextures.com/patterns/clean-gray-paper.png");opacity:.3;z-index:-1}
+    .typing-title{font-size:clamp(36px,7vw,64px);font-family:'Playfair Display',serif;font-weight:700;color:var(--ink2);white-space:nowrap;border-right:3px solid var(--brand);overflow:hidden;width:0}
+    @keyframes typing {from{width:0} to{width:100%}}
+    @keyframes blink {50%{border-color:transparent}}
+    .hero p{font-size:clamp(18px,2.2vw,22px);margin-top:16px;color:#555}
+    .hero .scroll-cta{margin-top:36px;display:inline-block;padding:12px 22px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:700;text-decoration:none;box-shadow:0 12px 30px rgba(176,137,104,.35);transition:transform .35s}
+    .hero .scroll-cta:hover{transform:translateY(-4px)}
 
     /* Sections */
-    section {
-      max-width: 1150px;
-      margin: 100px auto;
-      padding: 0 20px;
-    }
-    section h2 {
-      text-align: center;
-      font-size: 36px;
-      font-family: 'Playfair Display', serif;
-      margin-bottom: 60px;
-      color: #3a2d24;
-      position: relative;
-    }
-    section h2::after {
-      content: "";
-      position: absolute;
-      width: 70px; height: 3px;
-      background: #b08968;
-      bottom: -12px; left: 50%;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
+    section{max-width:1150px;margin:100px auto;padding:0 20px}
+    section h2{text-align:center;font-size:36px;font-family:'Playfair Display',serif;margin-bottom:60px;color:var(--ink2);position:relative}
+    section h2::after{content:"";position:absolute;width:70px;height:3px;background:var(--brand);bottom:-12px;left:50%;transform:translateX(-50%);border-radius:2px}
 
-    /* Glassy Cards */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-      gap: 35px;
-    }
-    .card {
-      background: rgba(255,255,255,0.45);
-      border-radius: 20px;
-      padding: 28px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-      backdrop-filter: blur(15px) saturate(160%);
-      transition: all 0.6s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -80%; left: -80%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle,rgba(255,255,255,0.35),transparent);
-      transform: rotate(25deg);
-      opacity: 0;
-      transition: 0.6s;
-    }
-    .card:hover::before { opacity: 1; top: -40%; left: -40%; }
-    .card:hover {
-      transform: translateY(-14px) scale(1.05);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.2);
-    }
-    .card h3 { font-size: 21px; margin-bottom: 14px; color: #2e2219; }
+    /* Grid + Cards */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:35px}
+    .card{background:rgba(255,255,255,.45);border-radius:20px;padding:28px;box-shadow:0 12px 40px rgba(0,0,0,.15);backdrop-filter:blur(15px) saturate(160%);transition:transform .6s ease, box-shadow .6s ease;position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;top:-80%;left:-80%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.35),transparent 70%);transform:rotate(25deg);opacity:0;transition:.6s}
+    .card:hover::before{opacity:1;top:-40%;left:-40%}
+    .card:hover{transform:translateY(-14px) scale(1.05);box-shadow:0 25px 60px rgba(0,0,0,.2)}
+    .card h3{font-size:21px;margin-bottom:14px;color:#2e2219}
 
     /* Buttons */
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      border-radius: 14px;
-      text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg,#b08968,#7f5539);
-      font-weight: bold;
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn::after {
-      content: "";
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: rgba(255,255,255,0.3);
-      transition: 0.6s;
-    }
-    .btn:hover::after { left: 100%; }
-    .btn:hover { transform: scale(1.08); }
+    .btn{display:inline-block;padding:12px 24px;border-radius:14px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));font-weight:800;letter-spacing:.3px;transition:transform .35s;position:relative;overflow:hidden}
+    .btn::after{content:"";position:absolute;inset:0;left:-100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transition:.6s}
+    .btn:hover::after{left:100%}
+    .btn:hover{transform:translateY(-4px)}
 
     /* Stories form */
-    .stories form {
-      max-width: 650px; margin: auto;
-      display: flex; flex-direction: column; gap: 18px;
-    }
-    .stories input, .stories textarea {
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      transition: 0.3s;
-      font-family: 'Poppins', sans-serif;
-      background: rgba(255,255,255,0.65);
-      backdrop-filter: blur(12px);
-    }
-    .stories input:focus, .stories textarea:focus {
-      border-color: #b08968;
-      box-shadow: 0 0 10px rgba(176,137,104,0.4);
-      outline: none;
-    }
+    .stories form{max-width:650px;margin:auto;display:flex;flex-direction:column;gap:18px}
+    .stories input,.stories textarea{padding:14px 16px;border-radius:12px;border:1px solid #ccc;font-size:16px;transition:.3s;font-family:'Poppins',sans-serif;background:rgba(255,255,255,.65);backdrop-filter:blur(12px)}
+    .stories input:focus,.stories textarea:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(176,137,104,.18);outline:none}
 
     /* Footer */
-    footer {
-      text-align: center;
-      padding: 25px;
-      margin-top: 80px;
-      background: #3a2d24;
-      color: white;
-      font-size: 15px;
+    footer{text-align:center;padding:28px;margin-top:80px;background:var(--ink2);color:#fff;font-size:15px}
+    footer a{color:var(--brand);text-decoration:underline}
+
+    /* Reduce motion respect */
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .hero .scroll-cta,.card{transition:none}
     }
-    footer a { color: #b08968; text-decoration: underline; }
   </style>
 </head>
 <body>
+  <div class="glow" aria-hidden="true"></div>
 
   <!-- Navbar -->
-  <nav>
-    <h1>Aurevyn Novyra</h1>
-    <ul>
-      <li><a href="#">Home</a></li>
+  <nav id="nav">
+    <div class="brand">
+      <div class="logo"></div>
+      <h1>Aurevyn Novyra</h1>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#top">Home</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#works">Works</a></li>
       <li><a href="#featured">Featured</a></li>
       <li><a href="#stories">Stories</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
-    <h1 class="typing-title">Aurevyn Novyra</h1>
-    <p>A poetic journey through words & imagination by Priyanshu sharma</p>
+  <a id="top" class="sr-only" aria-hidden="true"></a>
+  <section class="hero" data-lenis-prevent-wheel="false">
+    <div>
+      <h1 class="typing-title" id="typing">Aurevyn Novyra</h1>
+      <p>A poetic journey through words & imagination by Priyanshu Sharma</p>
+      <a href="#works" class="scroll-cta magnetic">Explore Works ↓</a>
+    </div>
   </section>
 
   <!-- About -->
   <section id="about" data-aos="fade-up">
     <h2>About Me</h2>
-    <p style="text-align:center; font-size:18px; max-width:850px; margin:auto; line-height:1.7; color:#444;">
-      I am <b>Priyanshu Sharma</b>, the voice behind <i>Aurevyn Novyra</i>.  
-      My words are my sanctuary, a library built of echoes, dreams, and stories waiting to be heard.  
-      Each piece is a doorway to another soul, a candle flickering in the silent halls of poetry.  
-      Here, you will find fragments of me scattered like forgotten pages of a timeless book.  
+    <p style="text-align:center;font-size:18px;max-width:850px;margin:auto;line-height:1.8;color:#444">
+      I am <b>Priyanshu Sharma</b>, the voice behind <i>Aurevyn Novyra</i>.<br/>
+      My words are my sanctuary, a library built of echoes, dreams, and stories waiting to be heard.
+      Each piece is a doorway to another soul, a candle flickering in the silent halls of poetry.
+      Here, you will find fragments of me scattered like forgotten pages of a timeless book.
     </p>
   </section>
 
-  <!-- Works -->
+  <!-- Works (keep ALL original links intact) -->
   <section id="works" data-aos="fade-up">
     <h2>My Works</h2>
     <div class="card-grid">
-      <div class="card" data-aos="zoom-in"><h3>If God gave me another chance (ChapBook)</h3><a class="btn" href="https://drive.google.com/file/d/1Y-iuK8AkCDBiw8ySJSId0r_nY8ct8ckl/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>The Dream Dreaming the Dreamer</h3><a class="btn" href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>Echoes that never Got heard</h3><a class="btn" href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>Hands beneath My sky</h3><a class="btn" href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>If love ever finds me</h3><a class="btn" href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>Ashes Don't Bloom</h3><a class="btn" href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>Hopeless yet clueless</h3><a class="btn" href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view?usp=drivesdk">Read</a></div>
-      <div class="card" data-aos="zoom-in"><h3>End it all</h3><a class="btn" href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view?usp=drivesdk">Read</a></div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>If God gave me another chance (ChapBook)</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1Y-iuK8AkCDBiw8ySJSId0r_nY8ct8ckl/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>The Dream Dreaming the Dreamer</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>Echoes that never Got heard</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>Hands beneath My sky</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>If love ever finds me</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>Ashes Don't Bloom</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>Hopeless yet clueless</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
+      <div class="card tilt" data-aos="zoom-in">
+        <h3>End it all</h3>
+        <a class="btn magnetic" href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view?usp=drivesdk" target="_blank" rel="noopener">Read</a>
+      </div>
     </div>
   </section>
 
@@ -257,43 +180,152 @@
   <section id="featured" data-aos="fade-up">
     <h2>Featured Section</h2>
     <div class="card-grid">
-      <div class="card" data-aos="fade-left"><h3>Midnight in the Library</h3><p>A tale whispered between bookshelves.</p></div>
-      <div class="card" data-aos="fade-right"><h3>Letters Never Sent</h3><p>Echoes of words left unsaid.</p></div>
-      <div class="card" data-aos="fade-up"><h3>Autumn’s Last Breath</h3><p>Poetry woven in falling leaves.</p></div>
+      <div class="card tilt" data-aos="fade-left"><h3>Midnight in the Library</h3><p>A tale whispered between bookshelves.</p></div>
+      <div class="card tilt" data-aos="fade-right"><h3>Letters Never Sent</h3><p>Echoes of words left unsaid.</p></div>
+      <div class="card tilt" data-aos="fade-up"><h3>Autumn’s Last Breath</h3><p>Poetry woven in falling leaves.</p></div>
     </div>
   </section>
 
   <!-- Reader’s Stories -->
   <section id="stories" class="stories" data-aos="fade-up">
     <h2>Share Your Story</h2>
-    <form>
+    <form onsubmit="event.preventDefault(); fancyToast('Thanks for sharing!'); this.reset();">
       <input type="text" placeholder="Your Name" required>
       <input type="email" placeholder="Your Email" required>
       <textarea rows="6" placeholder="Write your story here..." required></textarea>
-      <button type="submit" class="btn">Submit</button>
+      <button type="submit" class="btn magnetic">Submit</button>
     </form>
   </section>
 
-  <!-- Extra Scrollable Content -->
-  <section data-aos="fade-up"><h2>Library of Echoes</h2><div class="card-grid">
-    <div class="card" data-aos="flip-left"><h3>Dusty Windows</h3><p>Light filtering into forgotten corners.</p></div>
-    <div class="card" data-aos="flip-right"><h3>Silent Whispers</h3><p>Stories only night can hear.</p></div>
-    <div class="card" data-aos="zoom-in"><h3>Pages of Time</h3><p>Each word a universe in itself.</p></div>
-  </div></section>
+  <!-- Library of Echoes -->
+  <section data-aos="fade-up">
+    <h2>Library of Echoes</h2>
+    <div class="card-grid">
+      <div class="card tilt" data-aos="flip-left"><h3>Dusty Windows</h3><p>Light filtering into forgotten corners.</p></div>
+      <div class="card tilt" data-aos="flip-right"><h3>Silent Whispers</h3><p>Stories only night can hear.</p></div>
+      <div class="card tilt" data-aos="zoom-in"><h3>Pages of Time</h3><p>Each word a universe in itself.</p></div>
+    </div>
+  </section>
 
-  <section data-aos="fade-up"><h2>Timeless Chapters</h2><div class="card-grid">
-    <div class="card" data-aos="fade-up"><h3>The Forgotten Poem</h3></div>
-    <div class="card" data-aos="fade-up"><h3>The Library Clock</h3></div>
-    <div class="card" data-aos="fade-up"><h3>The Lantern’s Glow</h3></div>
-  </div></section>
+  <!-- Timeless Chapters -->
+  <section data-aos="fade-up">
+    <h2>Timeless Chapters</h2>
+    <div class="card-grid">
+      <div class="card tilt" data-aos="fade-up"><h3>The Forgotten Poem</h3></div>
+      <div class="card tilt" data-aos="fade-up"><h3>The Library Clock</h3></div>
+      <div class="card tilt" data-aos="fade-up"><h3>The Lantern’s Glow</h3></div>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer>
     © 2025 Aurevyn Novyra | Designed with love by Priyanshu Sharma
   </footer>
 
-  <!-- AOS Script -->
+  <!-- Vendor Scripts -->
+  <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init({duration: 1200, once: false, offset: 120});</script>
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    // ===== Mobile Nav Toggle =====
+    const root = document.documentElement;
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', ()=>{
+      document.body.classList.toggle('nav-open');
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', String(!expanded));
+    });
+    navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      document.body.classList.remove('nav-open');
+      hamburger.setAttribute('aria-expanded','false');
+    }));
+
+    // ===== AOS Init (smooth + subtle) =====
+    AOS.init({ duration: 1100, once: false, offset: 120, easing: 'ease-out-cubic' });
+
+    // ===== Lenis Smooth Scrolling =====
+    const lenis = new Lenis({ lerp: 0.12, smoothWheel: true, wheelMultiplier: 1.1 });
+    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // ===== Typing headline (GSAP controlled for smoothness) =====
+    const typing = document.getElementById('typing');
+    // use CSS keyframes on first paint, then GSAP caret blink for ultra smoothness
+    typing.style.animation = 'typing 3.6s steps(30,end) forwards, blink .8s infinite';
+
+    // ===== Magnetic Buttons =====
+    const magnets = document.querySelectorAll('.magnetic');
+    magnets.forEach((btn)=>{
+      btn.style.willChange = 'transform';
+      const strength = 20;
+      btn.addEventListener('mousemove', (e)=>{
+        const r = btn.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) / r.width;
+        const y = (e.clientY - r.top - r.height/2) / r.height;
+        btn.style.transform = `translate(${x*strength}px, ${y*strength}px)`;
+      });
+      btn.addEventListener('mouseleave', ()=>{ btn.style.transform = 'translate(0,0)'; });
+    });
+
+    // ===== 3D Tilt on cards =====
+    VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 9, speed: 500, glare: true, 'max-glare': .18, perspective: 900 });
+
+    // ===== GSAP Scroll Animations (ultra smooth) =====
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Nav hide on scroll down, show on scroll up
+    let lastY = window.scrollY;
+    const navHideTl = gsap.timeline({ paused: true }).to(nav, { yPercent: -100, duration: .5, ease: 'power3.out' });
+    window.addEventListener('scroll', ()=>{
+      const dirDown = window.scrollY > lastY;
+      if (window.scrollY > 120) { dirDown ? navHideTl.play() : navHideTl.reverse(); }
+      else navHideTl.reverse();
+      lastY = window.scrollY;
+    });
+
+    // Parallax & reveal for sections
+    document.querySelectorAll('section h2').forEach((title)=>{
+      gsap.fromTo(title, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: title, start: 'top 80%' }});
+    });
+
+    // Card stagger on enter
+    document.querySelectorAll('.card-grid').forEach((grid)=>{
+      gsap.from(grid.children, { y: 30, opacity: 0, duration: .9, ease: 'power2.out', stagger: { each: .08 }, scrollTrigger: { trigger: grid, start: 'top 75%' }});
+    });
+
+    // Gentle floating for hero
+    gsap.to('.hero > div', { y: 8, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    // Hover lift for cards (extra smooth)
+    document.querySelectorAll('.card').forEach((c)=>{
+      c.addEventListener('mouseenter', ()=> gsap.to(c, { duration:.4, y:-8, ease:'power2.out' }));
+      c.addEventListener('mouseleave', ()=> gsap.to(c, { duration:.5, y:0, ease:'power2.out' }));
+    });
+
+    // Fancy toast for form submit
+    function fancyToast(text){
+      const el = document.createElement('div');
+      el.textContent = text;
+      Object.assign(el.style, { position:'fixed', left:'50%', bottom:'40px', transform:'translateX(-50%)', background:'linear-gradient(135deg,var(--brand),var(--brand2))', color:'#fff', padding:'12px 18px', borderRadius:'14px', boxShadow:'0 10px 30px rgba(0,0,0,.18)', zIndex:10000, opacity:0, pointerEvents:'none', fontWeight:800, letterSpacing:'.3px' });
+      document.body.appendChild(el);
+      gsap.to(el, { opacity:1, y:-10, duration:.4, ease:'power2.out' });
+      setTimeout(()=> gsap.to(el, { opacity:0, y:0, duration:.5, ease:'power2.in', onComplete:()=> el.remove() }), 1800);
+    }
+
+    // Smooth anchor scrolling via Lenis
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const hash = a.getAttribute('href');
+        if(hash.length>1){ e.preventDefault(); const target = document.querySelector(hash);
+          if(target){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+        }
+      });
+    });
+  </script>
 </body>
 </html>
