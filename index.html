@@ -68,6 +68,34 @@
     .in-view{opacity:1;transform:translate3d(0,0,0);transition:opacity .6s ease, transform .6s ease}
     .in-view.fast{transition-duration:.45s}
 
+    /* ===== NOTICE (interactive floating card) ===== */
+    .notice{margin-top:-40px}
+    .notice-card{
+      position:relative;
+      perspective:1000px;
+    }
+    .notice-inner{
+      background:linear-gradient(145deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
+      border:1px solid rgba(176,137,104,.25);
+      border-radius:22px;
+      padding:28px clamp(18px,4vw,36px);
+      box-shadow:0 30px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.5);
+      backdrop-filter:blur(16px) saturate(140%);
+      transform-style:preserve-3d;
+      transform:rotateX(0) rotateY(0) translateZ(0);
+      transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease;
+      animation:shadowBreath 6s ease-in-out infinite;
+    }
+    @keyframes shadowBreath{
+      0%,100%{box-shadow:0 30px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.5)}
+      50%{box-shadow:0 40px 90px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.55)}
+    }
+    .notice-title{font:700 clamp(22px,4vw,32px) 'Playfair Display',serif; color:var(--ink2); letter-spacing:.6px}
+    .notice-sub{margin-top:8px; color:#4e4e4e}
+    .notice-cta{margin-top:14px}
+    .notice-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(176,137,104,.12);border:1px solid rgba(176,137,104,.25);color:#6b5b4a}
+
     /* Share Your Story (premium) */
     .story-wrap{position:relative}
     .story-area{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch}
@@ -120,6 +148,7 @@
     <ul>
       <li><a href="#top">Home</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#notice">Notice</a></li>
       <li><a href="#works">Works</a></li>
       <li><a href="#featured">Featured</a></li>
       <li><a href="#poetic-sections">Sections</a></li>
@@ -146,6 +175,25 @@
       Each piece is a doorway to another soul, a candle flickering in the silent halls of poetry.
       Here, you will find fragments of me scattered like forgotten pages of a timeless book.
     </p>
+  </section>
+
+  <!-- NOTICE: interactive floating card just above My Works -->
+  <section id="notice" class="notice reveal">
+    <div class="notice-card">
+      <div class="notice-inner" id="noticeInner">
+        <div class="notice-title">New pages have arrived in the Library of Echoes</div>
+        <p class="notice-sub">Wander through 40 fresh poetic works and 10 themed sections — all crafted for a long, buttery-smooth read.</p>
+        <div class="notice-badges">
+          <span class="badge">Ultra-smooth</span>
+          <span class="badge">No jitter</span>
+          <span class="badge">Long scroll</span>
+          <span class="badge">Premium forms</span>
+        </div>
+        <div class="notice-cta">
+          <a class="btn" href="#works">Jump to My Works</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Works (original 8 links + 40 extra poetic cards) -->
@@ -312,10 +360,7 @@
       <div class="char-wrap">
         <div class="char-stage" id="charStage">
           <div class="char2d" id="char2d">
-            <!--
-              IMPORTANT: Replace the src below with your hosted image URL of the provided character.
-              Example: <img src="/assets/your-character.png" alt="Excited character" />
-            -->
+            <!-- Replace src below with your hosted image URL of the provided character -->
             <img src="https://raw.githubusercontent.com/mckaywrigley/assets/main/placeholders/portrait-3x5.jpg" alt="Excited character" id="charImg" />
           </div>
           <div class="hand" id="hand">👉</div>
@@ -368,6 +413,21 @@
       glow.style.transform=`translate3d(${x*10}px, ${y*10}px, 0)`;
     }, { passive:true });
 
+    // NOTICE tilt interaction
+    const notice = document.getElementById('noticeInner');
+    if(notice){
+      const maxTilt = 8; // degrees
+      const onMove = (e)=>{
+        const r = notice.getBoundingClientRect();
+        const px = (e.clientX - r.left)/r.width - .5;
+        const py = (e.clientY - r.top)/r.height - .5;
+        notice.style.transform = `rotateX(${(-py*maxTilt).toFixed(2)}deg) rotateY(${(px*maxTilt).toFixed(2)}deg) translateZ(0)`;
+      };
+      const reset = ()=> notice.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
+      notice.addEventListener('pointermove', onMove, {passive:true});
+      notice.addEventListener('pointerleave', reset);
+    }
+
     // Story form interactions
     const storyArea = document.getElementById('story');
     const countEl = document.getElementById('chars');
@@ -396,10 +456,7 @@
       setTimeout(()=>{ el.style.opacity=0; el.style.transform='translate(-50%,0)'; el.addEventListener('transitionend',()=>el.remove(),{once:true}); }, 2000);
     }
 
-    /* =============================
-       2D CHARACTER ANIMATION (jump -> point)
-       Uses your provided character image. Replace the <img src> with your hosted image URL for best results.
-       ============================= */
+    /* ===== 2D CHARACTER (jump -> point loop) ===== */
     const stage = document.getElementById('charStage');
     const char = document.getElementById('char2d');
     const hand = document.getElementById('hand');
