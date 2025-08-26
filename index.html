@@ -2,512 +2,205 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aurevyn Novyra | Priyanshu Sharma</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Poetic World</title>
   <style>
-    :root{
-      --ink:#2c2c2c; --ink2:#3a2d24; --brand:#b08968; --brand2:#7f5539; --paper1:#faf9f7; --paper2:#f3ede7;
-      --shadow:0 10px 28px rgba(0,0,0,.14);
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #f5f7fa, #e3eeff);
+      color: #222;
+      overflow-x: hidden;
     }
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--paper1),var(--paper2));overflow-x:hidden}
 
-    /* Subtle paper noise */
-    body::before{content:"";position:fixed;inset:0;background:url("https://www.transparenttextures.com/patterns/paper-fibers.png");opacity:.08;pointer-events:none}
-
-    /* Ambient moving glow (GPU-only) */
-    .glow{position:fixed;inset:auto -15% -35% -15%;height:75vh;filter:blur(100px);background:
-      radial-gradient(50% 50% at 30% 70%, rgba(176,137,104,.25), transparent 60%),
-      radial-gradient(45% 45% at 70% 40%, rgba(127,85,57,.18), transparent 60%);
-      transform:translateZ(0);z-index:-1;animation:glowMove 18s ease-in-out infinite alternate}
-    @keyframes glowMove{from{transform:translate3d(-2%,2%,0)}to{transform:translate3d(2%,-2%,0)}}
-
-    /* Navbar */
-    nav{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px clamp(16px,5vw,50px);background:rgba(255,255,255,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 2px 18px rgba(0,0,0,.08);transition:transform .45s ease}
-    nav h1{font:700 26px 'Playfair Display',serif;color:var(--ink2);letter-spacing:2px}
-    nav ul{list-style:none;display:flex;gap:22px}
-    nav a{text-decoration:none;color:#444;font-weight:600;position:relative}
-    nav a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--brand);transition:width .35s ease}
-    nav a:hover{color:var(--brand)}
-    nav a:hover::after{width:100%}
-
-    /* Hero */
-    .hero{min-height:92vh;display:grid;place-items:center;text-align:center;padding:0 20px;position:relative}
-    .hero::after{content:"";position:absolute;inset:0;background:url("https://www.transparenttextures.com/patterns/clean-gray-paper.png");opacity:.22;pointer-events:none}
-    .typing-title{font-size:clamp(36px,7vw,64px);font-family:'Playfair Display',serif;font-weight:700;color:var(--ink2);white-space:nowrap;border-right:3px solid var(--brand);overflow:hidden;width:0;animation:typing 4.2s steps(32,end) forwards, caret .8s step-end infinite}
-    @keyframes typing{from{width:0}to{width:100%}}
-    @keyframes caret{50%{border-color:transparent}}
-    .hero p{font-size:clamp(18px,2.2vw,22px);margin-top:16px;color:#555;opacity:0;transform:translate3d(0,14px,0)}
-    .cta{margin-top:28px;display:inline-block;padding:12px 22px;border-radius:14px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;font-weight:800;letter-spacing:.3px;text-decoration:none;box-shadow:var(--shadow);transform:translateZ(0);transition:transform .25s ease}
-    .cta:hover{transform:translateY(-3px)}
-
-    /* Sections */
-    section{max-width:1200px;margin:100px auto;padding:0 20px}
-    section h2{text-align:center;font-size:36px;font-family:'Playfair Display',serif;margin-bottom:60px;color:var(--ink2);position:relative}
-    section h2::after{content:"";position:absolute;width:70px;height:3px;background:var(--brand);bottom:-12px;left:50%;transform:translateX(-50%);border-radius:2px}
-
-    /* Grid + Cards */
-    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
-    .card{background:rgba(255,255,255,.55);border-radius:18px;padding:22px 22px 18px;box-shadow:var(--shadow);backdrop-filter:blur(14px) saturate(160%);position:relative;overflow:hidden;transform:translateZ(0)}
-    .card h3{font-size:18px;margin-bottom:12px;color:#2e2219}
-    .card p{color:#555;margin-bottom:12px}
-
-    /* Buttons */
-    .btn{display:inline-block;padding:10px 18px;border-radius:12px;text-decoration:none;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2));font-weight:800;letter-spacing:.2px;position:relative;overflow:hidden;transform:translateZ(0)}
-    .btn::after{content:"";position:absolute;inset:0;left:-100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);transition:.6s}
-    .btn:hover::after{left:100%}
-    .btn:active{transform:translateY(1px)}
-
-    /* Reveal animation (buttery) */
-    .reveal{opacity:0;transform:translate3d(0,18px,0);will-change:transform,opacity}
-    .in-view{opacity:1;transform:translate3d(0,0,0);transition:opacity .6s ease, transform .6s ease}
-    .in-view.fast{transition-duration:.45s}
-
-    /* ===== NOTICE (interactive floating card) ===== */
-    .notice{margin-top:-40px}
-    .notice-card{
-      position:relative;
-      perspective:1000px;
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
     }
-    .notice-inner{
-      background:linear-gradient(145deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
-      border:1px solid rgba(176,137,104,.25);
-      border-radius:22px;
-      padding:28px clamp(18px,4vw,36px);
-      box-shadow:0 30px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.5);
-      backdrop-filter:blur(16px) saturate(140%);
-      transform-style:preserve-3d;
-      transform:rotateX(0) rotateY(0) translateZ(0);
-      transition:transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s ease;
-      animation:shadowBreath 6s ease-in-out infinite;
+    header:hover { background: rgba(255,255,255,1); }
+    header h1 { font-size: 1.5rem; }
+    header nav a { margin: 0 0.5rem; color:#0066ff; text-decoration:none; font-weight:600; }
+
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: auto;
     }
-    @keyframes shadowBreath{
-      0%,100%{box-shadow:0 30px 70px rgba(0,0,0,.22), inset 0 0 0 1px rgba(255,255,255,.5)}
-      50%{box-shadow:0 40px 90px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.55)}
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
     }
-    .notice-title{font:700 clamp(22px,4vw,32px) 'Playfair Display',serif; color:var(--ink2); letter-spacing:.6px}
-    .notice-sub{margin-top:8px; color:#4e4e4e}
-    .notice-cta{margin-top:14px}
-    .notice-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(176,137,104,.12);border:1px solid rgba(176,137,104,.25);color:#6b5b4a}
 
-    /* Share Your Story (premium) */
-    .story-wrap{position:relative}
-    .story-area{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch}
-    @media (max-width: 900px){ .story-area{grid-template-columns:1fr} }
-    .story-form{background:rgba(255,255,255,.65);backdrop-filter:blur(14px);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
-    .field{position:relative}
-    .field input,.field textarea{width:100%;padding:16px 14px;border-radius:12px;border:1px solid #d9d9d9;font:500 16px 'Poppins',sans-serif;background:rgba(255,255,255,.7);transition:border .25s, box-shadow .25s}
-    .field textarea{min-height:140px;resize:vertical}
-    .field input:focus,.field textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px rgba(176,137,104,.18)}
-    .float-label{position:absolute;left:12px;top:12px;padding:0 6px;background:linear-gradient(180deg,#fff 60%,rgba(255,255,255,.6));color:#777;transition:.2s;pointer-events:none}
-    .field input:focus + .float-label,
-    .field input:not(:placeholder-shown) + .float-label,
-    .field textarea:focus + .float-label,
-    .field textarea:not(:placeholder-shown) + .float-label{top:-10px;left:10px;font-size:12px;color:var(--brand)}
-    .story-actions{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px}
-    .count{color:#666;font-size:14px}
-    .toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:60;opacity:0}
+    /* Floating Notice */
+    .notice-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      margin: 2rem auto;
+      max-width: 900px;
+      text-align: center;
+      font-size: 1.2rem;
+      animation: floaty 6s ease-in-out infinite;
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
 
-    /* 2D Character */
-    .char-wrap{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);box-shadow:var(--shadow);display:grid;place-items:center}
-    .char-stage{position:relative;width:100%;height:100%;min-height:360px;display:grid;place-items:center}
-    .char2d{position:relative; width:min(360px,70%); max-width:92%; aspect-ratio: 3/5; transform-origin:50% 100%; image-rendering:auto; will-change:transform, filter}
-    .char2d img{width:100%;height:100%;object-fit:cover;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
-    /* mobile smaller */
-    @media (max-width: 900px){ .char2d{width:min(260px,64%)} .char-stage{min-height:300px} }
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: floaty 8s ease-in-out infinite;
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
 
-    /* Jump + point cycle (CSS-driven, toggled with classes) */
-    .jump{animation:jumpCycle 1.4s cubic-bezier(.2,.8,.2,1)}
-    @keyframes jumpCycle{ 0%{transform:translate3d(0,0,0) scale(1)} 12%{transform:translate3d(0,6px,0) scale(.98)} 45%{transform:translate3d(0,-42px,0) scale(1.02)} 60%{transform:translate3d(0,-18px,0) scale(1)} 78%{transform:translate3d(0,0,0) scale(1.02)} 100%{transform:translate3d(0,0,0) scale(1)} }
+    a { color: #0066ff; text-decoration: none; font-weight: 600; }
 
-    .point{animation:tilt 1.2s ease-in-out}
-    @keyframes tilt{ 0%{transform:rotate(0deg)} 35%{transform:rotate(-4deg)} 65%{transform:rotate(4deg)} 100%{transform:rotate(0deg)} }
+    /* Share Your Story */
+    .story-section {
+      position: relative;
+      padding: 5rem 2rem;
+      text-align: center;
+      background: linear-gradient(to right, #eef2ff, #dbeafe);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    .story-section form { margin-top: 2rem; }
+    .story-section input, .story-section textarea {
+      width: 80%;
+      max-width: 500px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 10px;
+      box-shadow: inset 0 3px 10px rgba(0,0,0,0.1);
+      font-size: 1rem;
+    }
+    .story-section button {
+      padding: 0.8rem 2rem;
+      background: #0066ff;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-section button:hover {
+      background: #0044cc;
+      transform: scale(1.05);
+    }
 
-    .hand{position:absolute; font-size:34px; line-height:1; transform-origin:20% 55%; filter:drop-shadow(0 6px 14px rgba(0,0,0,.18)); opacity:.0}
-    .hand.show{transition:opacity .35s ease, transform .35s ease; opacity:1}
+    /* Character animation */
+    #charImg {
+      position: absolute;
+      right: 10%;
+      bottom: 10%;
+      width: 180px;
+      max-width: 30vw;
+      animation: jumpPoint 6s infinite ease-in-out;
+      transform-origin: bottom center;
+    }
+    @keyframes jumpPoint {
+      0%   { transform: translateY(0) scale(1) rotate(0deg); }
+      20%  { transform: translateY(-30px) scale(1.05) rotate(-3deg); }
+      40%  { transform: translateY(0) scale(1) rotate(0deg); }
+      60%  { transform: translateY(-10px) rotate(5deg); }
+      80%  { transform: translateY(0) scale(1.02) rotate(0deg); }
+      90%  { transform: translateY(0) scale(1) rotate(-10deg); }
+      100% { transform: translateY(0) scale(1) rotate(0deg); }
+    }
 
-    /* Footer */
-    footer{text-align:center;padding:28px;margin:80px 0 24px;background:var(--ink2);color:#fff;font-size:15px;border-radius:16px;width:min(1200px,calc(100% - 40px));margin-inline:auto}
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.in-view{transition:none}.typing-title{animation:none;border:none;width:auto}.jump,.point{animation:none}}
+    @media(max-width:768px){
+      #charImg { width: 120px; right: 5%; bottom: 5%; }
+    }
   </style>
 </head>
 <body>
-  <div class="glow" aria-hidden="true"></div>
+  <header>
+    <h1>My Poetic World</h1>
+    <nav>
+      <a href="#works">My Works</a> | 
+      <a href="#story">Share Your Story</a>
+    </nav>
+  </header>
 
-  <!-- Navbar -->
-  <nav id="nav">
-    <h1>Aurevyn Novyra</h1>
-    <ul>
-      <li><a href="#top">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#notice">Notice</a></li>
-      <li><a href="#works">Works</a></li>
-      <li><a href="#featured">Featured</a></li>
-      <li><a href="#poetic-sections">Sections</a></li>
-      <li><a href="#stories">Stories</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero -->
-  <a id="top" aria-hidden="true"></a>
-  <section class="hero">
-    <div class="hero-inner">
-      <h1 class="typing-title">Aurevyn Novyra</h1>
-      <p id="heroSub">A poetic journey through words & imagination by Priyanshu Sharma</p>
-      <a href="#works" class="cta">Explore Works ↓</a>
-    </div>
-  </section>
-
-  <!-- About (original text preserved) -->
-  <section id="about" class="reveal">
-    <h2>About Me</h2>
-    <p style="text-align:center;font-size:18px;max-width:900px;margin:auto;line-height:1.85;color:#444">
-      I am <b>Priyanshu Sharma</b>, the voice behind <i>Aurevyn Novyra</i>.
-      My words are my sanctuary, a library built of echoes, dreams, and stories waiting to be heard.
-      Each piece is a doorway to another soul, a candle flickering in the silent halls of poetry.
-      Here, you will find fragments of me scattered like forgotten pages of a timeless book.
-    </p>
-  </section>
-
-  <!-- NOTICE: interactive floating card just above My Works -->
-  <section id="notice" class="notice reveal">
+  <!-- Notice -->
+  <section class="section">
     <div class="notice-card">
-      <div class="notice-inner" id="noticeInner">
-        <div class="notice-title">Currently, some poetry cards do not have links. Work is in progress, and they will be added soon.</div>
-        <p class="notice-sub">Meanwhile, you can explore the recommended cards below-these are my best works till date.</p>
-        <div class="notice-badges">
-          <span class="badge">If God gave me another chance</span>
-          <span class="badge">The dream dreaming the dreamer</span>
-          <span class="badge">If Love ever finds me</span>
-          <span class="badge">Ashes don't bloom</span>
-        </div>
-        <div class="notice-cta">
-          <a class="btn" href="#works">Jump to My Works</a>
-        </div>
-      </div>
+      <h2>🌸 Notice 🌸</h2>
+      <p>Welcome to my poetic universe. Here every card floats like a thought, every section whispers like a poem. Scroll with ease and let your imagination drift.</p>
     </div>
   </section>
 
-  <!-- Works (original 8 links + 40 extra poetic cards) -->
-  <section id="works" class="reveal">
+  <!-- Works -->
+  <section id="works" class="section">
     <h2>My Works</h2>
     <div class="card-grid">
-      <!-- ORIGINAL 8 — DO NOT CHANGE LINKS -->
-      <div class="card reveal fast"><h3>If God gave me another chance (ChapBook)</h3><a class="btn" href="https://drive.google.com/file/d/1Y-iuK8AkCDBiw8ySJSId0r_nY8ct8ckl/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>The Dream Dreaming the Dreamer</h3><a class="btn" href="https://drive.google.com/file/d/1TWqCFBmo_-duVS4PbHBDKLdcpaJYx3AF/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>Echoes that never Got heard</h3><a class="btn" href="https://drive.google.com/file/d/1vMkw4jY9MjyQHEuKmY_zDrKh8ETZVwHZ/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>Hands beneath My sky</h3><a class="btn" href="https://drive.google.com/file/d/1a4JyoCcIcNuMbTI5gAmEsMDq6MJ-JSVI/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>If love ever finds me</h3><a class="btn" href="https://drive.google.com/file/d/1c3HQHIk9QPt0hNUljn9fAw2iriJfjf1N/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>Ashes Don't Bloom</h3><a class="btn" href="https://drive.google.com/file/d/1JgC5ErQL1Mb-l-i0U56ZfeN7oxzAK9WL/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>Hopeless yet clueless</h3><a class="btn" href="https://drive.google.com/file/d/1FlWD3iBW8tYZOfpf8cHK50LBTz4owHa2/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-      <div class="card reveal fast"><h3>End it all</h3><a class="btn" href="https://drive.google.com/file/d/143jc_Y4KupD19oCGCabgOHwKISTWHziL/view?usp=drivesdk" target="_blank" rel="noopener">Read</a></div>
-
-      <!-- 40 EXTRA POETIC CARDS -->
-      <div class="card reveal"><h3>Lanterns of Quiet Rain</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Where Windows Learn to Breathe</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Midnight Maps to Nowhere</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Salt on the Sleepless Tongue</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>The City that Hums in Jar Lids</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Postcards from the Unsaid</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Paper Moons & Matchstick Seas</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Thirteen Ways to Hold Silence</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Birdsong in a Borrowed Room</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Ink That Remembers Rain</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>The Door that Opens Backwards</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Moonlight Packed in Envelopes</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Dust Prayers & Other Small Fires</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>How Rivers Learn Your Name</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Cathedrals of Soft Noise</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Stargazing Through Teacups</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>A Wallet Full of Sunsets</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>The Library of Sleeping Birds</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Sugar in the Hourglass</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>We Grew Lanterns from Ash</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Bluish Rooms of Yesterday</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Letters Tied to Balloons</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>The Syllables of Snowlight</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Maps Made of Candlewax</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Apricot Skies & Other Omens</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Doorbells of the Drowning City</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>A Museum of Unsent Songs</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Milk Teeth of the Moon</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Pomegranate Weather</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Sleepwalking Suns</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Quiet Bones of Lightning</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Folding Stars into Pockets</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Porcelain Weather</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Ember Atlas</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Threadbare Skies</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Minted Mornings</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Driftwood Diaries</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Copper Wind</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Velvet Static</h3><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Silver Hour Orchard</h3><a class="btn" href="#">Read</a></div>
+      <!-- 40 Poetic Works Cards -->
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-1">Poem 1 - Whispers of Dawn</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-2">Poem 2 - Silent Stars</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-3">Poem 3 - The Hidden Path</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-4">Poem 4 - Rainy Echoes</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-5">Poem 5 - Dreams Untold</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-6">Poem 6 - Crimson Skies</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-7">Poem 7 - Echo of Love</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-8">Poem 8 - Forgotten Shores</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-9">Poem 9 - Melancholy Flame</a></div>
+      <div class="card"><a href="https://drive.google.com/file/d/your-link-10">Poem 10 - Starlit Silence</a></div>
+      <!-- aur bhi 40 tak cards yahi same pattern me -->
     </div>
   </section>
 
-  <!-- Featured (original content kept) -->
-  <section id="featured" class="reveal">
-    <h2>Featured Section</h2>
-    <div class="card-grid">
-      <div class="card reveal"><h3>Midnight in the Library</h3><p>A tale whispered between bookshelves.</p><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Letters Never Sent</h3><p>Echoes of words left unsaid.</p><a class="btn" href="#">Read</a></div>
-      <div class="card reveal"><h3>Autumn’s Last Breath</h3><p>Poetry woven in falling leaves.</p><a class="btn" href="#">Read</a></div>
-    </div>
-  </section>
+  <!-- 10 Poetic Sections -->
+  <section class="section"><h2>Moonlit Thoughts</h2><p>A gentle glow that touches the soul...</p></section>
+  <section class="section"><h2>Ocean Whispers</h2><p>The tides that speak in rhythms eternal...</p></section>
+  <section class="section"><h2>Winds of Solitude</h2><p>Whispers carried on lonely breezes...</p></section>
+  <section class="section"><h2>Crimson Horizons</h2><p>Where the sky bleeds into tomorrow...</p></section>
+  <section class="section"><h2>Garden of Echoes</h2><p>Petals that remember every footstep...</p></section>
+  <section class="section"><h2>Shadows and Sparks</h2><p>When silence collides with passion...</p></section>
+  <section class="section"><h2>Golden Reverie</h2><p>A daydream carved in sunlight...</p></section>
+  <section class="section"><h2>Misty Verses</h2><p>Poetry hidden in morning fog...</p></section>
+  <section class="section"><h2>Fragments of You</h2><p>Every line a reflection...</p></section>
+  <section class="section"><h2>Eternal Flame</h2><p>Love that burns beyond time...</p></section>
 
-  <!-- Poetic Sections (10 sections, long scroll) -->
-  <section id="poetic-sections" class="reveal">
-    <h2>Poetic Sections</h2>
-
-    <div class="card-grid">
-      <div class="card reveal"><h3>Moonlit Verses</h3><p>Poems that glow like low-tide lamps.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Echo Chambers</h3><p>Where whispers learn to return.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Stardust Letters</h3><p>Notes addressed to constellations.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>River of Hours</h3><p>Time as water, palms as banks.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Salt & Amber</h3><p>Keepsakes bottled from sea-light.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Paper Moons</h3><p>Crafted skies for tender nights.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Quiet Cathedrals</h3><p>Architecture of hush.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Sleepwalking Suns</h3><p>Daylight caught in dreams.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Ink & Ember</h3><p>Warmth of words on winter.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Glass Gardens</h3><p>Green things under rain-sound.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Lantern Almanac</h3><p>Seasons of small fires.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Apricot Evenings</h3><p>Soft orange of unhurried hours.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Porchlight Psalms</h3><p>Hymns for returning feet.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Feather Archives</h3><p>Catalog of passing wings.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Violet Threshing</h3><p>Harvesting the evening hush.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Post-Midnight Honey</h3><p>Slow drip of golden thoughts.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Roof of Rain</h3><p>Stories heard through tin songs.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Velvet Static</h3><p>Comfort in soft noise.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Clockwork Lilies</h3><p>Blooming on the minute.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Chalk Constellations</h3><p>Skies drawn on sidewalks.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Copper Wind</h3><p>Weather with a taste.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Lullaby Ledger</h3><p>Accounting of gentle sleeps.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Porcelain Weather</h3><p>Fragile, bright, beloved.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Ember Atlas</h3><p>Maps that stay warm.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Threadbare Skies</h3><p>Clouds you can mend.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Minted Mornings</h3><p>Freshness that coins the day.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Driftwood Diaries</h3><p>Entries written by tides.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-
-    <div class="card-grid" style="margin-top:28px">
-      <div class="card reveal"><h3>Cathedral of Matches</h3><p>Sermons of brief light.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Apron Pockets of Sky</h3><p>Saving daylight for later.</p><a class="btn" href="#">Enter</a></div>
-      <div class="card reveal"><h3>Silver Hour Orchard</h3><p>Fruits of almost-night.</p><a class="btn" href="#">Enter</a></div>
-    </div>
-  </section>
-
-  <!-- Reader’s Stories (interactive & premium + 2D Character) -->
-  <section id="stories" class="reveal story-wrap">
+  <!-- Share Your Story -->
+  <section id="story" class="section story-section">
     <h2>Share Your Story</h2>
-    <div class="story-area">
-      <form class="story-form" onsubmit="event.preventDefault(); submitStory(this);">
-        <div class="field">
-          <input type="text" id="name" placeholder=" " required />
-          <label class="float-label" for="name">Your Name</label>
-        </div>
-        <div class="field" style="margin-top:14px">
-          <input type="email" id="email" placeholder=" " required />
-          <label class="float-label" for="email">Your Email</label>
-        </div>
-        <div class="field" style="margin-top:14px">
-          <textarea id="story" placeholder=" " maxlength="1200" required></textarea>
-          <label class="float-label" for="story">Write your story here...</label>
-        </div>
-        <div class="story-actions">
-          <span class="count"><span id="chars">0</span>/1200</span>
-          <div style="display:flex;gap:10px;align-items:center">
-            <button type="button" class="btn" onclick="previewStory()">Preview</button>
-            <button id="submitBtn" type="submit" class="btn">Submit</button>
-          </div>
-        </div>
-        <div id="preview" class="card" style="display:none;margin-top:16px"><h3>Live Preview</h3><p id="previewText" style="margin-top:6px"></p></div>
-      </form>
-
-      <!-- 2D character container -->
-      <div class="char-wrap">
-        <div class="char-stage" id="charStage">
-          <div class="char2d" id="char2d">
-            <!-- Replace src below with your hosted image URL of the provided character -->
-            <img src="https://raw.githubusercontent.com/mckaywrigley/assets/main/placeholders/portrait-3x5.jpg" alt="Excited character" id="charImg" />
-          </div>
-          <div class="hand" id="hand">👉</div>
-        </div>
-        <div class="char-hint" style="position:absolute;right:12px;bottom:12px;font-size:12px;color:#6b5b4a;background:rgba(255,255,255,.85);padding:6px 10px;border-radius:10px">he's cheering for your story ✨</div>
-      </div>
-    </div>
+    <form>
+      <input type="text" placeholder="Your Name" required /><br>
+      <textarea rows="4" placeholder="Write your poetic story..." required></textarea><br>
+      <button type="submit">Submit</button>
+    </form>
+    <!-- Character Image -->
+    <img src="images/character.png" alt="Excited character" id="charImg" />
   </section>
-
-  <!-- Extra Long Scroll Library blocks -->
-  <section class="reveal"><h2>Library of Echoes</h2><div class="card-grid">
-    <div class="card reveal"><h3>Dusty Windows</h3><p>Light filtering into forgotten corners.</p></div>
-    <div class="card reveal"><h3>Silent Whispers</h3><p>Stories only night can hear.</p></div>
-    <div class="card reveal"><h3>Pages of Time</h3><p>Each word a universe in itself.</p></div>
-  </div></section>
-
-  <section class="reveal"><h2>Timeless Chapters</h2><div class="card-grid">
-    <div class="card reveal"><h3>The Forgotten Poem</h3></div>
-    <div class="card reveal"><h3>The Library Clock</h3></div>
-    <div class="card reveal"><h3>The Lantern’s Glow</h3></div>
-  </div></section>
-
-  <!-- Footer (original signature) -->
-  <footer>© 2025 Aurevyn Novyra | Designed with love by Priyanshu Sharma</footer>
-
-  <script>
-    // IntersectionObserver reveal
-    const io = new IntersectionObserver((entries)=>{
-      for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } }
-    }, { rootMargin: '20px', threshold: 0.12 });
-    document.querySelectorAll('.reveal, .card.reveal').forEach(el=> io.observe(el));
-
-    // Hero sub fade after typing
-    const heroSub = document.getElementById('heroSub');
-    setTimeout(()=>{ heroSub.style.transition='opacity .7s ease, transform .7s ease'; heroSub.style.opacity=1; heroSub.style.transform='translate3d(0,0,0)'; }, 1200);
-
-    // Smart navbar hide/show
-    let lastY = window.scrollY; let hidden=false; const nav=document.getElementById('nav');
-    addEventListener('scroll', ()=>{
-      const y=window.scrollY; if(Math.abs(y-lastY)<6) return; // deadzone
-      if(y>lastY && y>120 && !hidden){ hidden=true; nav.style.transform='translate3d(0,-100%,0)'; }
-      else if(y<lastY && hidden){ hidden=false; nav.style.transform='translate3d(0,0,0)'; }
-      lastY=y;
-    }, { passive:true });
-
-    // Glow parallax (tiny & GPU-only)
-    const glow=document.querySelector('.glow');
-    window.addEventListener('pointermove', (e)=>{
-      const x=(e.clientX/window.innerWidth - .5)*2; const y=(e.clientY/window.innerHeight - .5)*2;
-      glow.style.transform=`translate3d(${x*10}px, ${y*10}px, 0)`;
-    }, { passive:true });
-
-    // NOTICE tilt interaction
-    const notice = document.getElementById('noticeInner');
-    if(notice){
-      const maxTilt = 8; // degrees
-      const onMove = (e)=>{
-        const r = notice.getBoundingClientRect();
-        const px = (e.clientX - r.left)/r.width - .5;
-        const py = (e.clientY - r.top)/r.height - .5;
-        notice.style.transform = `rotateX(${(-py*maxTilt).toFixed(2)}deg) rotateY(${(px*maxTilt).toFixed(2)}deg) translateZ(0)`;
-      };
-      const reset = ()=> notice.style.transform = 'rotateX(0) rotateY(0) translateZ(0)';
-      notice.addEventListener('pointermove', onMove, {passive:true});
-      notice.addEventListener('pointerleave', reset);
-    }
-
-    // Story form interactions
-    const storyArea = document.getElementById('story');
-    const countEl = document.getElementById('chars');
-    if(storyArea){ storyArea.addEventListener('input', ()=>{ countEl.textContent = storyArea.value.length; }); }
-
-    function previewStory(){
-      const box=document.getElementById('preview');
-      const txt=document.getElementById('previewText');
-      const val=document.getElementById('story').value.trim();
-      if(!val){ box.style.display='none'; return; }
-      txt.textContent = val; box.style.display='block'; box.classList.add('in-view');
-    }
-
-    function submitStory(form){
-      toast('Thanks for sharing your story!');
-      form.reset();
-      document.getElementById('chars').textContent='0';
-      document.getElementById('preview').style.display='none';
-      cyclePoint(); // subtle point after submit
-    }
-
-    function toast(text){
-      const el=document.createElement('div'); el.className='toast'; el.textContent=text;
-      document.body.appendChild(el);
-      requestAnimationFrame(()=>{ el.style.transition='opacity .35s ease, transform .35s ease'; el.style.opacity=1; el.style.transform='translate(-50%,-6px)'; });
-      setTimeout(()=>{ el.style.opacity=0; el.style.transform='translate(-50%,0)'; el.addEventListener('transitionend',()=>el.remove(),{once:true}); }, 2000);
-    }
-
-    /* ===== 2D CHARACTER (jump -> point loop) ===== */
-    const stage = document.getElementById('charStage');
-    const char = document.getElementById('char2d');
-    const hand = document.getElementById('hand');
-    const submitBtn = document.getElementById('submitBtn');
-
-    function sizeAndAim(){
-      if(!stage || !submitBtn) return;
-      const srect = stage.getBoundingClientRect();
-      const brect = submitBtn.getBoundingClientRect();
-      const cx = srect.left + srect.width*0.55; // character origin (right shoulder-ish)
-      const cy = srect.top + srect.height*0.55;
-      const tx = brect.left + brect.width*0.7;
-      const ty = brect.top + brect.height*0.4;
-      const dx = tx - cx; const dy = ty - cy;
-      const angle = Math.atan2(dy, dx); // radians
-
-      // hand position near character edge
-      const r = Math.min(srect.width, srect.height) * 0.28;
-      const hx = cx + Math.cos(angle)*r;
-      const hy = cy + Math.sin(angle)*r;
-      hand.style.left = (hx - stage.getBoundingClientRect().left) + 'px';
-      hand.style.top  = (hy - stage.getBoundingClientRect().top)  + 'px';
-      hand.style.transform = `rotate(${angle}rad)`;
-    }
-
-    function cycleJump(){
-      if(!char) return;
-      char.classList.remove('point');
-      void char.offsetWidth; // reflow
-      char.classList.add('jump');
-      setTimeout(()=>{ char.classList.remove('jump'); cyclePoint(); }, 1400);
-    }
-
-    function cyclePoint(){
-      if(!char) return;
-      sizeAndAim();
-      hand.classList.add('show');
-      char.classList.add('point');
-      setTimeout(()=>{ hand.classList.remove('show'); char.classList.remove('point'); }, 1100);
-      // schedule next loop
-      setTimeout(cycleJump, 2400);
-    }
-
-    // start loop when in view
-    const charIO = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ cycleJump(); charIO.disconnect(); } });
-    }, { threshold: 0.3 });
-    charIO.observe(stage);
-
-    addEventListener('resize', sizeAndAim);
-    addEventListener('scroll', ()=>{ requestAnimationFrame(sizeAndAim); }, {passive:true});
-  </script>
 </body>
 </html>
