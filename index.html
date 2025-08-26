@@ -70,7 +70,9 @@
 
     /* Share Your Story (premium) */
     .story-wrap{position:relative}
-    .story-form{max-width:760px;margin:auto;background:rgba(255,255,255,.65);backdrop-filter:blur(14px);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
+    .story-area{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch}
+    @media (max-width: 900px){ .story-area{grid-template-columns:1fr} }
+    .story-form{background:rgba(255,255,255,.65);backdrop-filter:blur(14px);padding:28px;border-radius:18px;box-shadow:var(--shadow)}
     .field{position:relative}
     .field input,.field textarea{width:100%;padding:16px 14px;border-radius:12px;border:1px solid #d9d9d9;font:500 16px 'Poppins',sans-serif;background:rgba(255,255,255,.7);transition:border .25s, box-shadow .25s}
     .field textarea{min-height:140px;resize:vertical}
@@ -83,6 +85,11 @@
     .story-actions{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:10px}
     .count{color:#666;font-size:14px}
     .toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:60;opacity:0}
+
+    /* 3D Character Canvas */
+    #char3d{width:100%;height:100%;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.45);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+    .char-wrap{position:relative;border-radius:18px}
+    .char-hint{position:absolute;right:12px;bottom:12px;font-size:12px;color:#6b5b4a;background:rgba(255,255,255,.8);padding:6px 10px;border-radius:10px}
 
     /* Footer */
     footer{text-align:center;padding:28px;margin:80px 0 24px;background:var(--ink2);color:#fff;font-size:15px;border-radius:16px;width:min(1200px,calc(100% - 40px));margin-inline:auto}
@@ -261,31 +268,39 @@
     </div>
   </section>
 
-  <!-- Reader’s Stories (interactive & premium) -->
+  <!-- Reader’s Stories (interactive & premium + 3D Character) -->
   <section id="stories" class="reveal story-wrap">
     <h2>Share Your Story</h2>
-    <form class="story-form" onsubmit="event.preventDefault(); submitStory(this);">
-      <div class="field">
-        <input type="text" id="name" placeholder=" " required />
-        <label class="float-label" for="name">Your Name</label>
-      </div>
-      <div class="field" style="margin-top:14px">
-        <input type="email" id="email" placeholder=" " required />
-        <label class="float-label" for="email">Your Email</label>
-      </div>
-      <div class="field" style="margin-top:14px">
-        <textarea id="story" placeholder=" " maxlength="1200" required></textarea>
-        <label class="float-label" for="story">Write your story here...</label>
-      </div>
-      <div class="story-actions">
-        <span class="count"><span id="chars">0</span>/1200</span>
-        <div style="display:flex;gap:10px;align-items:center">
-          <button type="button" class="btn" onclick="previewStory()">Preview</button>
-          <button type="submit" class="btn">Submit</button>
+    <div class="story-area">
+      <form class="story-form" onsubmit="event.preventDefault(); submitStory(this);">
+        <div class="field">
+          <input type="text" id="name" placeholder=" " required />
+          <label class="float-label" for="name">Your Name</label>
         </div>
+        <div class="field" style="margin-top:14px">
+          <input type="email" id="email" placeholder=" " required />
+          <label class="float-label" for="email">Your Email</label>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <textarea id="story" placeholder=" " maxlength="1200" required></textarea>
+          <label class="float-label" for="story">Write your story here...</label>
+        </div>
+        <div class="story-actions">
+          <span class="count"><span id="chars">0</span>/1200</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button type="button" class="btn" onclick="previewStory()">Preview</button>
+            <button id="submitBtn" type="submit" class="btn">Submit</button>
+          </div>
+        </div>
+        <div id="preview" class="card" style="display:none;margin-top:16px"><h3>Live Preview</h3><p id="previewText" style="margin-top:6px"></p></div>
+      </form>
+
+      <!-- 3D character container -->
+      <div class="char-wrap">
+        <div id="char3d" aria-label="Poetic 3D character, pointing to Submit button"></div>
+        <div class="char-hint">he's cheering for your story ✨</div>
       </div>
-      <div id="preview" class="card" style="display:none;margin-top:16px"><h3>Live Preview</h3><p id="previewText" style="margin-top:6px"></p></div>
-    </form>
+    </div>
   </section>
 
   <!-- Extra Long Scroll Library blocks -->
@@ -303,6 +318,9 @@
 
   <!-- Footer (original signature) -->
   <footer>© 2025 Aurevyn Novyra | Designed with love by Priyanshu Sharma</footer>
+
+  <!-- Three.js for 3D Character -->
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
 
   <script>
     // IntersectionObserver reveal
@@ -359,7 +377,119 @@
       setTimeout(()=>{ el.style.opacity=0; el.style.transform='translate(-50%,0)'; el.addEventListener('transitionend',()=>el.remove(),{once:true}); }, 2000);
     }
 
-    // Respect reduced motion automatically via CSS
+    /* =============================
+       3D CHARACTER (cute poetic) 
+       built from simple primitives
+       ============================= */
+    (function initCharacter(){
+      const wrap = document.getElementById('char3d');
+      if(!wrap) return;
+
+      const scene = new THREE.Scene();
+      scene.background = null; // transparent
+
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+      camera.position.set(0, 1.1, 4.2);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+      wrap.appendChild(renderer.domElement);
+
+      // Lighting
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x887766, 0.9);
+      scene.add(hemi);
+      const dir = new THREE.DirectionalLight(0xffffff, 0.6);
+      dir.position.set(2, 3, 2);
+      scene.add(dir);
+
+      // Materials
+      const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf2e8dc, roughness: 0.45, metalness: 0.05 });
+      const accentMat = new THREE.MeshStandardMaterial({ color: 0xb08968, roughness: 0.3, metalness: 0.2 });
+      const darkMat = new THREE.MeshStandardMaterial({ color: 0x2c2c2c, roughness: 0.8 });
+
+      const group = new THREE.Group();
+      scene.add(group);
+
+      // Body (capsule-ish)
+      const bodyGeo = new THREE.CapsuleGeometry(0.7, 1.0, 8, 16);
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.y = 0.9;
+      group.add(body);
+
+      // Head (sphere)
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.55, 24, 16), bodyMat);
+      head.position.set(0, 1.9, 0);
+      group.add(head);
+
+      // Eyes
+      const eyeGeo = new THREE.SphereGeometry(0.06, 16, 12);
+      const eyeL = new THREE.Mesh(eyeGeo, darkMat); eyeL.position.set(-0.16, 2.0, 0.49);
+      const eyeR = new THREE.Mesh(eyeGeo, darkMat); eyeR.position.set( 0.16, 2.0, 0.49);
+      group.add(eyeL, eyeR);
+
+      // Tiny halo (poetic vibe)
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.02, 12, 48), accentMat);
+      ring.rotation.x = Math.PI/2.2; ring.position.y = 2.55; group.add(ring);
+
+      // Arms
+      function arm(){
+        const g = new THREE.Group();
+        const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.65,12), bodyMat);
+        const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.55,12), bodyMat);
+        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.09, 14, 12), bodyMat);
+        upper.position.y = -0.2; upper.rotation.z = Math.PI/2; g.add(upper);
+        lower.position.set(0.35,-0.2,0); lower.rotation.z = Math.PI/2; g.add(lower);
+        hand.position.set(0.65,-0.2,0); g.add(hand);
+        return { group:g, upper, lower, hand };
+      }
+      const left = arm(); left.group.position.set(-0.7,1.6,0.0); group.add(left.group);
+      const right = arm(); right.group.position.set(0.7,1.6,0.0); right.group.rotation.y = Math.PI; group.add(right.group);
+
+      // A little floating animation
+      let t = 0;
+
+      // Pointing to submit button (approx: lean & extend)
+      const submitBtn = document.getElementById('submitBtn');
+      function aimAtButton(){
+        if(!submitBtn) return;
+        // Compute relative direction in 2D to nudge the right arm yaw
+        const rect = submitBtn.getBoundingClientRect();
+        const wrapRect = wrap.getBoundingClientRect();
+        const targetX = (rect.left + rect.width*0.7) - (wrapRect.left + wrapRect.width*0.5);
+        // Map to small yaw range
+        const yaw = THREE.MathUtils.clamp(targetX / wrapRect.width, -0.4, 0.4);
+        right.group.rotation.y = Math.PI + yaw; // face towards button
+      }
+
+      function resize(){
+        const w = wrap.clientWidth || 400;
+        const h = wrap.clientHeight || 320;
+        renderer.setSize(w,h,false);
+        camera.aspect = w/h; camera.updateProjectionMatrix();
+      }
+      resize();
+      addEventListener('resize', resize);
+      addEventListener('scroll', aimAtButton, {passive:true});
+
+      function animate(){
+        t += 0.016;
+        // gentle float
+        group.position.y = Math.sin(t*0.9) * 0.06;
+        ring.rotation.z = Math.sin(t*0.7)*0.25;
+        // Right arm pointing pulse
+        const elbow = Math.sin(t*1.4)*0.25 - 0.8; // bend
+        right.lower.rotation.z = elbow;
+        right.upper.rotation.z = -0.25; // lift
+        // Left arm idle sway
+        left.upper.rotation.z = Math.sin(t*1.1)*0.15 + 0.2;
+        left.lower.rotation.z = Math.cos(t*1.1)*0.12 - 0.2;
+        aimAtButton();
+        renderer.render(scene,camera);
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
   </script>
 </body>
 </html>
