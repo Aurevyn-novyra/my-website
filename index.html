@@ -86,16 +86,29 @@
     .count{color:#666;font-size:14px}
     .toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:60;opacity:0}
 
-    /* 3D Character Canvas */
-    #char3d{width:100%;height:100%;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.45);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
-    .char-wrap{position:relative;border-radius:18px}
-    .char-hint{position:absolute;right:12px;bottom:12px;font-size:12px;color:#6b5b4a;background:rgba(255,255,255,.8);padding:6px 10px;border-radius:10px}
+    /* 2D Character */
+    .char-wrap{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);box-shadow:var(--shadow);display:grid;place-items:center}
+    .char-stage{position:relative;width:100%;height:100%;min-height:360px;display:grid;place-items:center}
+    .char2d{position:relative; width:min(360px,70%); max-width:92%; aspect-ratio: 3/5; transform-origin:50% 100%; image-rendering:auto; will-change:transform, filter}
+    .char2d img{width:100%;height:100%;object-fit:cover;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+    /* mobile smaller */
+    @media (max-width: 900px){ .char2d{width:min(260px,64%)} .char-stage{min-height:300px} }
+
+    /* Jump + point cycle (CSS-driven, toggled with classes) */
+    .jump{animation:jumpCycle 1.4s cubic-bezier(.2,.8,.2,1)}
+    @keyframes jumpCycle{ 0%{transform:translate3d(0,0,0) scale(1)} 12%{transform:translate3d(0,6px,0) scale(.98)} 45%{transform:translate3d(0,-42px,0) scale(1.02)} 60%{transform:translate3d(0,-18px,0) scale(1)} 78%{transform:translate3d(0,0,0) scale(1.02)} 100%{transform:translate3d(0,0,0) scale(1)} }
+
+    .point{animation:tilt 1.2s ease-in-out}
+    @keyframes tilt{ 0%{transform:rotate(0deg)} 35%{transform:rotate(-4deg)} 65%{transform:rotate(4deg)} 100%{transform:rotate(0deg)} }
+
+    .hand{position:absolute; font-size:34px; line-height:1; transform-origin:20% 55%; filter:drop-shadow(0 6px 14px rgba(0,0,0,.18)); opacity:.0}
+    .hand.show{transition:opacity .35s ease, transform .35s ease; opacity:1}
 
     /* Footer */
     footer{text-align:center;padding:28px;margin:80px 0 24px;background:var(--ink2);color:#fff;font-size:15px;border-radius:16px;width:min(1200px,calc(100% - 40px));margin-inline:auto}
 
     /* Reduced motion */
-    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.in-view{transition:none}.typing-title{animation:none;border:none;width:auto}}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.in-view{transition:none}.typing-title{animation:none;border:none;width:auto}.jump,.point{animation:none}}
   </style>
 </head>
 <body>
@@ -268,7 +281,7 @@
     </div>
   </section>
 
-  <!-- Reader’s Stories (interactive & premium + 3D Character) -->
+  <!-- Reader’s Stories (interactive & premium + 2D Character) -->
   <section id="stories" class="reveal story-wrap">
     <h2>Share Your Story</h2>
     <div class="story-area">
@@ -295,10 +308,19 @@
         <div id="preview" class="card" style="display:none;margin-top:16px"><h3>Live Preview</h3><p id="previewText" style="margin-top:6px"></p></div>
       </form>
 
-      <!-- 3D character container -->
+      <!-- 2D character container -->
       <div class="char-wrap">
-        <div id="char3d" aria-label="Poetic 3D character, pointing to Submit button"></div>
-        <div class="char-hint">he's cheering for your story ✨</div>
+        <div class="char-stage" id="charStage">
+          <div class="char2d" id="char2d">
+            <!--
+              IMPORTANT: Replace the src below with your hosted image URL of the provided character.
+              Example: <img src="/assets/your-character.png" alt="Excited character" />
+            -->
+            <img src="https://raw.githubusercontent.com/mckaywrigley/assets/main/placeholders/portrait-3x5.jpg" alt="Excited character" id="charImg" />
+          </div>
+          <div class="hand" id="hand">👉</div>
+        </div>
+        <div class="char-hint" style="position:absolute;right:12px;bottom:12px;font-size:12px;color:#6b5b4a;background:rgba(255,255,255,.85);padding:6px 10px;border-radius:10px">he's cheering for your story ✨</div>
       </div>
     </div>
   </section>
@@ -318,9 +340,6 @@
 
   <!-- Footer (original signature) -->
   <footer>© 2025 Aurevyn Novyra | Designed with love by Priyanshu Sharma</footer>
-
-  <!-- Three.js for 3D Character -->
-  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
 
   <script>
     // IntersectionObserver reveal
@@ -363,11 +382,11 @@
     }
 
     function submitStory(form){
-      // Fake success UI
       toast('Thanks for sharing your story!');
       form.reset();
       document.getElementById('chars').textContent='0';
       document.getElementById('preview').style.display='none';
+      cyclePoint(); // subtle point after submit
     }
 
     function toast(text){
@@ -378,118 +397,60 @@
     }
 
     /* =============================
-       3D CHARACTER (cute poetic) 
-       built from simple primitives
+       2D CHARACTER ANIMATION (jump -> point)
+       Uses your provided character image. Replace the <img src> with your hosted image URL for best results.
        ============================= */
-    (function initCharacter(){
-      const wrap = document.getElementById('char3d');
-      if(!wrap) return;
+    const stage = document.getElementById('charStage');
+    const char = document.getElementById('char2d');
+    const hand = document.getElementById('hand');
+    const submitBtn = document.getElementById('submitBtn');
 
-      const scene = new THREE.Scene();
-      scene.background = null; // transparent
+    function sizeAndAim(){
+      if(!stage || !submitBtn) return;
+      const srect = stage.getBoundingClientRect();
+      const brect = submitBtn.getBoundingClientRect();
+      const cx = srect.left + srect.width*0.55; // character origin (right shoulder-ish)
+      const cy = srect.top + srect.height*0.55;
+      const tx = brect.left + brect.width*0.7;
+      const ty = brect.top + brect.height*0.4;
+      const dx = tx - cx; const dy = ty - cy;
+      const angle = Math.atan2(dy, dx); // radians
 
-      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-      camera.position.set(0, 1.1, 4.2);
+      // hand position near character edge
+      const r = Math.min(srect.width, srect.height) * 0.28;
+      const hx = cx + Math.cos(angle)*r;
+      const hy = cy + Math.sin(angle)*r;
+      hand.style.left = (hx - stage.getBoundingClientRect().left) + 'px';
+      hand.style.top  = (hy - stage.getBoundingClientRect().top)  + 'px';
+      hand.style.transform = `rotate(${angle}rad)`;
+    }
 
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
-      wrap.appendChild(renderer.domElement);
+    function cycleJump(){
+      if(!char) return;
+      char.classList.remove('point');
+      void char.offsetWidth; // reflow
+      char.classList.add('jump');
+      setTimeout(()=>{ char.classList.remove('jump'); cyclePoint(); }, 1400);
+    }
 
-      // Lighting
-      const hemi = new THREE.HemisphereLight(0xffffff, 0x887766, 0.9);
-      scene.add(hemi);
-      const dir = new THREE.DirectionalLight(0xffffff, 0.6);
-      dir.position.set(2, 3, 2);
-      scene.add(dir);
+    function cyclePoint(){
+      if(!char) return;
+      sizeAndAim();
+      hand.classList.add('show');
+      char.classList.add('point');
+      setTimeout(()=>{ hand.classList.remove('show'); char.classList.remove('point'); }, 1100);
+      // schedule next loop
+      setTimeout(cycleJump, 2400);
+    }
 
-      // Materials
-      const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf2e8dc, roughness: 0.45, metalness: 0.05 });
-      const accentMat = new THREE.MeshStandardMaterial({ color: 0xb08968, roughness: 0.3, metalness: 0.2 });
-      const darkMat = new THREE.MeshStandardMaterial({ color: 0x2c2c2c, roughness: 0.8 });
+    // start loop when in view
+    const charIO = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ cycleJump(); charIO.disconnect(); } });
+    }, { threshold: 0.3 });
+    charIO.observe(stage);
 
-      const group = new THREE.Group();
-      scene.add(group);
-
-      // Body (capsule-ish)
-      const bodyGeo = new THREE.CapsuleGeometry(0.7, 1.0, 8, 16);
-      const body = new THREE.Mesh(bodyGeo, bodyMat);
-      body.position.y = 0.9;
-      group.add(body);
-
-      // Head (sphere)
-      const head = new THREE.Mesh(new THREE.SphereGeometry(0.55, 24, 16), bodyMat);
-      head.position.set(0, 1.9, 0);
-      group.add(head);
-
-      // Eyes
-      const eyeGeo = new THREE.SphereGeometry(0.06, 16, 12);
-      const eyeL = new THREE.Mesh(eyeGeo, darkMat); eyeL.position.set(-0.16, 2.0, 0.49);
-      const eyeR = new THREE.Mesh(eyeGeo, darkMat); eyeR.position.set( 0.16, 2.0, 0.49);
-      group.add(eyeL, eyeR);
-
-      // Tiny halo (poetic vibe)
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.38, 0.02, 12, 48), accentMat);
-      ring.rotation.x = Math.PI/2.2; ring.position.y = 2.55; group.add(ring);
-
-      // Arms
-      function arm(){
-        const g = new THREE.Group();
-        const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.65,12), bodyMat);
-        const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.55,12), bodyMat);
-        const hand = new THREE.Mesh(new THREE.SphereGeometry(0.09, 14, 12), bodyMat);
-        upper.position.y = -0.2; upper.rotation.z = Math.PI/2; g.add(upper);
-        lower.position.set(0.35,-0.2,0); lower.rotation.z = Math.PI/2; g.add(lower);
-        hand.position.set(0.65,-0.2,0); g.add(hand);
-        return { group:g, upper, lower, hand };
-      }
-      const left = arm(); left.group.position.set(-0.7,1.6,0.0); group.add(left.group);
-      const right = arm(); right.group.position.set(0.7,1.6,0.0); right.group.rotation.y = Math.PI; group.add(right.group);
-
-      // A little floating animation
-      let t = 0;
-
-      // Pointing to submit button (approx: lean & extend)
-      const submitBtn = document.getElementById('submitBtn');
-      function aimAtButton(){
-        if(!submitBtn) return;
-        // Compute relative direction in 2D to nudge the right arm yaw
-        const rect = submitBtn.getBoundingClientRect();
-        const wrapRect = wrap.getBoundingClientRect();
-        const targetX = (rect.left + rect.width*0.7) - (wrapRect.left + wrapRect.width*0.5);
-        // Map to small yaw range
-        const yaw = THREE.MathUtils.clamp(targetX / wrapRect.width, -0.4, 0.4);
-        right.group.rotation.y = Math.PI + yaw; // face towards button
-      }
-
-      function resize(){
-        const w = wrap.clientWidth || 400;
-        const h = wrap.clientHeight || 320;
-        renderer.setSize(w,h,false);
-        camera.aspect = w/h; camera.updateProjectionMatrix();
-      }
-      resize();
-      addEventListener('resize', resize);
-      addEventListener('scroll', aimAtButton, {passive:true});
-
-      function animate(){
-        t += 0.016;
-        // gentle float
-        group.position.y = Math.sin(t*0.9) * 0.06;
-        ring.rotation.z = Math.sin(t*0.7)*0.25;
-        // Right arm pointing pulse
-        const elbow = Math.sin(t*1.4)*0.25 - 0.8; // bend
-        right.lower.rotation.z = elbow;
-        right.upper.rotation.z = -0.25; // lift
-        // Left arm idle sway
-        left.upper.rotation.z = Math.sin(t*1.1)*0.15 + 0.2;
-        left.lower.rotation.z = Math.cos(t*1.1)*0.12 - 0.2;
-        aimAtButton();
-        renderer.render(scene,camera);
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
+    addEventListener('resize', sizeAndAim);
+    addEventListener('scroll', ()=>{ requestAnimationFrame(sizeAndAim); }, {passive:true});
   </script>
 </body>
 </html>
